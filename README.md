@@ -3,7 +3,7 @@ ischemic, not golf
 
 locally served medical data for remembering and relaying your condition and symptoms to your health care provider
 
-#How to use
+# How to use
 
 clone repo
 
