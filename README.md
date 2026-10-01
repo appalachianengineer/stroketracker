@@ -9,6 +9,10 @@ clone repo
 
 start terminal
 
+add your account and info
+>python setup.py
+
+start the server
 >python app.py
 
 in your browser navigate to the ip:port shown 
