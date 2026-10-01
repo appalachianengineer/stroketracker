@@ -1,13 +1,17 @@
 # Stroke tracker
 ischemic, not golf
 
+locally served medical data for remembering and relaying your condition and symptoms to your health care provider
+
+#How to use
+
 clone repo
 
 start terminal
 
 >python app.py
 
-
+in your browser navigate to the ip:port shown 
 
 ## License
 
