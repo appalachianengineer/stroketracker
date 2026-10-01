@@ -3,7 +3,9 @@ ischemic, not golf
 
 clone repo
 
-start python app.py
+start terminal
+
+>python app.py
 
 
 
