@@ -172,6 +172,15 @@ def require_login():
         return redirect(url_for('login'))
 
 
+@app.after_request
+def no_store_html(response):
+    """Locally-served app: never let the browser cache rendered pages, so a
+    restart with new templates is always visible on the next reload."""
+    if response.content_type and response.content_type.startswith("text/html"):
+        response.headers["Cache-Control"] = "no-store"
+    return response
+
+
 def get_user_prefs() -> dict:
     """Get current user's preferences, cached per-request via Flask g.
     Returns empty dict for unauthenticated users or users with no prefs yet.
