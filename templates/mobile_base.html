@@ -14,11 +14,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{% block title %}stroketracker{% endblock %}</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
 
     <style>
+    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
         :root {
             --bg-base: #0e0e12; --bg-surface: #16161d; --bg-elevated: #1e1e28; --bg-input: #23232f;
             --border-subtle: #2a2a38; --border-medium: #38384a;
@@ -27,7 +29,7 @@
             --color-neuro: #00ffff; --color-muscle: #d4a054; --color-migraine: #c94040;
             --color-cognitive: #9b72cf; --color-derm: #d4784a; --color-pulmonary: #00ffff;
             --color-gastro: #a8d46f; --color-mucosal: #d4c4a0; --color-rheum: #e85d9e;
-            --font-body: 'Source Serif 4', serif; --font-mono: 'IBM Plex Mono', monospace;
+            --font-body: 'Nordwand Mono', monospace; --font-mono: 'Nordwand Mono', monospace;
             --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem; --space-lg: 1.5rem; --space-xl: 2rem;
             --radius-sm: 6px; --radius-md: 10px;
         }
