@@ -953,7 +953,7 @@
             <span>sync</span>
         </a>
         {% endif %}
-        <div class="mobile-nav-item {% if request.endpoint in ('hrv_view', 'uv_lag', 'wearable', 'cycle_view', 'search', 'help_page', 'settings', 'portals_manage') %}active{% endif %}"
+        <div class="mobile-nav-item {% if request.endpoint in ('stress_log', 'activity_log', 'medlog', 'hrv_view', 'wearable', 'cycle_view', 'search', 'help_page', 'settings', 'portals_manage') %}active{% endif %}"
              id="mobileMoreBtn" style="cursor:pointer; position:relative;">
             <span class="mobile-nav-icon">...</span>
             <span>more</span>
@@ -961,8 +961,11 @@
                         background:var(--bg-elevated); border:1px solid var(--border-subtle);
                         border-radius:var(--radius-sm); padding:var(--space-sm) 0;
                         min-width:140px; box-shadow:0 -4px 12px rgba(0,0,0,0.3);">
-                <a href="{{ url_for('hrv_view') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">reactions</a>
-                <a href="{{ url_for('uv_lag') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">uv lag</a>
+                <button id="quickNoteBtnM" type="button"
+                        style="display:block; width:100%; text-align:left; background:none; border:none; font:inherit; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); font-size:0.85rem; cursor:pointer;">add note</button>
+                <a href="{{ url_for('stress_log') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">stress log</a>
+                <a href="{{ url_for('activity_log') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">activity log</a>
+                <a href="{{ url_for('medlog') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">medication log</a>
                 <a href="{{ url_for('wearable') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">wearable</a>
                 {% if track_cycle %}
                 <a href="{{ url_for('cycle_view') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">cycle</a>
@@ -1115,8 +1118,9 @@ function updateToggleUI(theme) {
 <script>
 (function () {
     var btn = document.getElementById('quickNoteBtn');
+    var btnMobile = document.getElementById('quickNoteBtnM');
     var overlay = document.getElementById('quickNoteModal');
-    if (!btn || !overlay) return;
+    if ((!btn && !btnMobile) || !overlay) return;
     var textEl = document.getElementById('qnText');
     var dateEl = document.getElementById('qnDate');
     var timeEl = document.getElementById('qnTime');
@@ -1136,7 +1140,7 @@ function updateToggleUI(theme) {
     }
     function close() { overlay.hidden = true; }
 
-    btn.addEventListener('click', open);
+    [btn, btnMobile].forEach(function (b) { if (b) b.addEventListener('click', open); });
     cancelBtn.addEventListener('click', close);
     overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
     document.addEventListener('keydown', function (e) {
