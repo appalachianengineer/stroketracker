@@ -344,5 +344,5 @@ def test_nav_has_data_dropdown_with_add_note_and_activity_log(app_client, user):
     assert 'href="/forecast"' in html             # forecast moved in
     assert 'href="/model"' in html               # model moved in
     assert 'href="/search"' in html              # search moved in
-    assert "activity log" in html                # new top-level item
-    assert "stress log" in html and "medication log" in html
+    assert "view log" in html                    # renamed activity log
+    assert 'href="/stress"' in html and 'href="/medlog"' in html

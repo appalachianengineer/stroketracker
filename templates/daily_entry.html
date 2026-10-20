@@ -3,15 +3,15 @@
 {% block title %}{{ entry_date }} — stroketracker{% endblock %}
 
 {% block content %}
-<div class="page-header">
+<div class="page-header" style="text-align: center;">
     <h1>{{ entry_date }}</h1>
-    <p class="page-subtitle">daily entry</p>
     <p style="font-size:0.75rem; margin-top:var(--space-xs);">
+        <span style="color:var(--text-secondary);">daily entry</span>
         {% if quick_mode %}
-        <a href="{{ url_for('daily_entry', date=entry_date) }}" style="color:var(--text-muted);">full entry</a>
+        <a href="{{ url_for('daily_entry', date=entry_date) }}" style="color:var(--text-muted); margin-left:var(--space-md);">full entry</a>
         <span style="color:var(--color-accent); margin-left:var(--space-sm);">quick entry</span>
         {% else %}
-        <span style="color:var(--color-accent);">full entry</span>
+        <span style="color:var(--color-accent); margin-left:var(--space-md);">full entry</span>
         <a href="{{ url_for('daily_entry', date=entry_date, mode='quick') }}"
            style="color:var(--text-muted); margin-left:var(--space-sm);">quick entry</a>
         {% endif %}
