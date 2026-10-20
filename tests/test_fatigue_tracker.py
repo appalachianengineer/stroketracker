@@ -313,3 +313,36 @@ def test_reminder_control_toggles_dose_notifications(app_client, user):
 
     app_client.post("/medlog/reminders", data={"enabled": "1"})
     assert len(db.get_all_pending_doses_with_ntfy(*window)) == 1  # back on
+
+
+# ------------------------------------------------------------------
+# Activity log + data dropdown nav
+# ------------------------------------------------------------------
+
+def test_activity_log_lists_everything_newest_first(app_client, user):
+    log_in(app_client, user)
+    app_client.post("/note/quick", json={"date": "2026-10-19", "time": "09:15",
+                                        "text": "slept badly"})
+    app_client.post("/stress/quick", data={"date": "2026-10-20", "time": "17:45",
+                                          "text": "argument with neighbor"})
+    app_client.post("/daily", data={"date": "2026-10-20", "fatigue_morning": "6",
+                                    "fatigue_evening": "7", "pain_scale": "2",
+                                    "emotional_state": "5"})
+    html = app_client.get("/activity").get_data(as_text=True)
+    assert "argument with neighbor" in html
+    assert "slept badly" in html
+    assert "fatigue am 6.0 / pm 7.0" in html
+    assert "pain 2.0" in html
+    assert html.index("argument with neighbor") < html.index("slept badly")  # newest day first
+
+
+def test_nav_has_data_dropdown_with_add_note_and_activity_log(app_client, user):
+    log_in(app_client, user)
+    html = app_client.get("/stress").get_data(as_text=True)
+    assert 'id="dataDropdown"' in html          # the dropdown itself
+    assert ">add note" in html                   # renamed note button inside it
+    assert 'href="/forecast"' in html             # forecast moved in
+    assert 'href="/model"' in html               # model moved in
+    assert 'href="/search"' in html              # search moved in
+    assert "activity log" in html                # new top-level item
+    assert "stress log" in html and "medication log" in html

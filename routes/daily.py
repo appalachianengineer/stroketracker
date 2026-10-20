@@ -285,6 +285,52 @@ def stress_quick():
     return redirect(url_for("stress_log"))
 
 
+@app.route("/activity", methods=["GET"])
+def activity_log():
+    """Activity log: one chronological feed of everything logged — daily
+    entries, quick notes, stressors and doses — newest day first."""
+    all_obs = db.get_all_daily_observations(uid()) or []
+    by_date = {}
+    for obs in all_obs:
+        events = []
+        facts = []
+        am, pm = obs.get("fatigue_morning"), obs.get("fatigue_evening")
+        if am is not None or pm is not None:
+            facts.append(f"fatigue am {am if am is not None else '—'}"
+                         f" / pm {pm if pm is not None else '—'}")
+        if obs.get("pain_scale") is not None:
+            facts.append(f"pain {obs['pain_scale']}")
+        if obs.get("hours_slept") is not None:
+            facts.append(f"slept {obs['hours_slept']} h")
+        if obs.get("flare_occurred"):
+            facts.append(f"flare logged ({obs.get('flare_severity') or 'unspecified'})")
+        if facts:
+            events.append({"kind": "entry", "time": None, "text": ", ".join(facts)})
+        for field, label in (("notes", "note"), ("stressors", "stressor")):
+            for e in _parse_log_entries(obs.get(field) or ""):
+                events.append({"kind": label, "time": e["time"], "text": e["text"]})
+        if events:
+            by_date[obs["date"]] = events
+
+    for offset in range(0, 30):
+        day = (date.today() - timedelta(days=offset)).isoformat()
+        doses = db.get_todays_doses(uid(), day)
+        if not doses:
+            continue
+        events = by_date.setdefault(day, [])
+        for dose in doses:
+            status = "taken" if dose.get("taken") else "scheduled"
+            events.append({"kind": "dose", "time": dose["scheduled_datetime"][11:16],
+                           "text": f"{dose['dose_label']} — {status}"})
+
+    days = []
+    for day in sorted(by_date, reverse=True)[:60]:
+        events = sorted(by_date[day], key=lambda e: e["time"] or "99:99")
+        days.append({"date": day, "events": events})
+    return render_template("activity_log.html", days=days,
+                           today=date.today().isoformat())
+
+
 # ============================================================
 # Mobile Quick Log & Status
 # ============================================================

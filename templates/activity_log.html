@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}activity log — stroketracker{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>activity log</h1>
+    <p class="page-subtitle">everything logged, newest first</p>
+</div>
+
+{% if days %}
+{% for day in days %}
+<div class="card">
+    <div class="card-title">{{ day.date }}{% if day.date == today %} (today){% endif %}</div>
+    <table class="data-table">
+        {% for e in day.events %}
+        <tr>
+            <td class="mono" style="width:70px; color:var(--text-muted);">{{ e.time or '—' }}</td>
+            <td>
+                {% if e.kind != 'entry' %}
+                <span style="color:var(--text-muted); font-size:0.75rem;">[{{ e.kind }}]</span>
+                {% endif %}
+                {{ e.text }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endfor %}
+{% else %}
+<div class="card">
+    <div class="card-title">nothing logged yet</div>
+    <p style="font-size:0.85rem; color:var(--text-muted);">
+        daily entries, notes, stressors and doses all appear here as you log them.
+    </p>
+</div>
+{% endif %}
+{% endblock %}
