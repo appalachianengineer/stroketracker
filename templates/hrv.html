@@ -36,7 +36,7 @@
 <div style="display:grid; grid-template-columns: 1fr 1fr;
             gap:var(--space-md); margin-bottom:var(--space-lg);">
 
-    <div class="card" style="border-color: rgba(74,144,217,0.3);">
+    <div class="card" style="border-color: rgba(0,255,255,0.3);">
         <div class="card-title" style="color:var(--text-muted); font-size:0.8rem;
              text-transform:uppercase; letter-spacing:0.08em;">
             before {{ primary_intervention_name }}
@@ -44,8 +44,8 @@
         <div id="preStats" style="margin-top:var(--space-sm);"></div>
     </div>
 
-    <div class="card" style="border-color: {% if primary_intervention_category == 'supplement' %}rgba(224,148,58,0.4){% else %}rgba(74,184,184,0.4){% endif %};">
-        <div class="card-title" style="color:{% if primary_intervention_category == 'supplement' %}var(--color-intervention-supplement){% else %}#4ab8b8{% endif %}; font-size:0.8rem;
+    <div class="card" style="border-color: {% if primary_intervention_category == 'supplement' %}rgba(224,148,58,0.4){% else %}rgba(0,255,255,0.4){% endif %};">
+        <div class="card-title" style="color:{% if primary_intervention_category == 'supplement' %}var(--color-intervention-supplement){% else %}#00ffff{% endif %}; font-size:0.8rem;
              text-transform:uppercase; letter-spacing:0.08em;">
             after {{ primary_intervention_name }} · {{ primary_intervention_date }}
         </div>
@@ -128,8 +128,8 @@ const interventionLinePlugin = {
             const x = scales.x.getPixelForValue(PRIMARY_INTERVENTION_DATE);
             if (x && x >= chartArea.left && x <= chartArea.right) {
                 const isSupplement = PRIMARY_INTERVENTION_CATEGORY === 'supplement';
-                const lineColor = isSupplement ? 'rgba(224,148,58,0.6)' : 'rgba(74,184,184,0.6)';
-                const textColor = isSupplement ? 'rgba(224,148,58,0.8)' : 'rgba(74,184,184,0.8)';
+                const lineColor = isSupplement ? 'rgba(224,148,58,0.6)' : 'rgba(0,255,255,0.6)';
+                const textColor = isSupplement ? 'rgba(224,148,58,0.8)' : 'rgba(0,255,255,0.8)';
                 ctx.save();
                 ctx.beginPath();
                 ctx.moveTo(x, chartArea.top);
@@ -232,7 +232,7 @@ function buildHRVChart() {
                 {
                     label: 'SDNN raw',
                     data: H.hrv_raw,
-                    borderColor: 'rgba(74,144,217,0.3)',
+                    borderColor: 'rgba(0,255,255,0.3)',
                     backgroundColor: 'transparent',
                     borderWidth: 1,
                     pointRadius: 0,
@@ -242,8 +242,8 @@ function buildHRVChart() {
                 {
                     label: 'SDNN 7d avg',
                     data: H.hrv_rolling,
-                    borderColor: '#4a90d9',
-                    backgroundColor: 'rgba(74,144,217,0.1)',
+                    borderColor: '#00ffff',
+                    backgroundColor: 'rgba(0,255,255,0.1)',
                     borderWidth: 2,
                     pointRadius: 0,
                     pointHoverRadius: 4,
@@ -310,7 +310,7 @@ function buildRespHRVChart() {
                 {
                     label: 'HRV 7d avg (ms)',
                     data: H.hrv_rolling,
-                    borderColor: '#4a90d9',
+                    borderColor: '#00ffff',
                     backgroundColor: 'transparent',
                     borderWidth: 2,
                     pointRadius: 0,
@@ -348,8 +348,8 @@ function buildRespHRVChart() {
                     type: 'linear',
                     position: 'left',
                     grid: gridOpts(),
-                    title: { display: true, text: 'HRV (ms)', color: '#4a90d9' },
-                    ticks: { color: '#4a90d9' },
+                    title: { display: true, text: 'HRV (ms)', color: '#00ffff' },
+                    ticks: { color: '#00ffff' },
                 },
                 yResp: {
                     type: 'linear',
@@ -437,14 +437,14 @@ function populateStats() {
             return '<div style="color:var(--text-muted); font-size:0.9rem;">' + (isPost ? 'no data yet' : 'no data') + '</div>';
         }
 
-        let html = '<div style="font-size:1.6rem; font-weight:600; color:' + (isPost ? '#4ab8b8' : '#4a90d9') + ';">'
+        let html = '<div style="font-size:1.6rem; font-weight:600; color:' + (isPost ? '#00ffff' : '#00ffff') + ';">'
             + stats.mean + ' <span style="font-size:0.9rem; color:var(--text-muted);">ms SDNN</span></div>'
             + '<div style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">'
             + '\u03c3 ' + stats.std + ' \u00b7 n=' + stats.n + '</div>';
 
         if (isPost && pre && pre.mean && stats.mean) {
             const delta = stats.mean - pre.mean;
-            html += '<div style="font-size:0.85rem; margin-top:4px; color:' + (delta > 0 ? '#4ab8b8' : '#c94040') + ';">'
+            html += '<div style="font-size:0.85rem; margin-top:4px; color:' + (delta > 0 ? '#00ffff' : '#c94040') + ';">'
                 + (delta > 0 ? '\u2191' : '\u2193') + ' ' + Math.abs(delta).toFixed(1) + ' ms SDNN</div>';
         }
 

@@ -567,7 +567,7 @@
                 <tr style="border-bottom: 1px solid var(--border-medium);">
                     <th style="text-align: left; padding: 4px 8px; color: var(--text-muted); font-weight: normal; min-width: 120px;"></th>
                     <th style="text-align: center; padding: 4px 8px; color: #c94040; font-weight: normal;">period</th>
-                    <th style="text-align: center; padding: 4px 8px; color: #4a90d9; font-weight: normal;">follicular</th>
+                    <th style="text-align: center; padding: 4px 8px; color: #00ffff; font-weight: normal;">follicular</th>
                     <th style="text-align: center; padding: 4px 8px; color: #9b72cf; font-weight: normal;">luteal / PMS</th>
                 </tr>
             </thead>
@@ -586,7 +586,7 @@
                     </td>
                     <td style="text-align: center; padding: 4px 8px;">
                         <span style="display:inline-block; padding:2px 6px; border-radius:3px;
-                                     background:rgba(74,144,217,{{ row.follicular / 100 * 0.7 }});
+                                     background:rgba(0,255,255,{{ row.follicular / 100 * 0.7 }});
                                      font-family:var(--font-mono); font-size:0.75rem;
                                      color:{% if row.follicular >= 20 %}var(--text-primary){% else %}var(--text-muted){% endif %};">
                             {{ row.follicular }}%
@@ -648,7 +648,7 @@
     const PA_NO_BC    = {{ phase_analytics_no_bc | tojson }};
     const phases      = ['period', 'follicular', 'luteal'];
     const phaseLabels = ['period', 'follicular', 'luteal / PMS'];
-    const phaseColors = { period: '#c94040', follicular: '#4a90d9', luteal: '#9b72cf' };
+    const phaseColors = { period: '#c94040', follicular: '#00ffff', luteal: '#9b72cf' };
     const gridColor   = 'rgba(255,255,255,0.06)';
     const tickColor   = '#9994a8';
 

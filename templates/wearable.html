@@ -215,7 +215,7 @@ Chart.defaults.color = '#9994a8';
 // ============================================================
 const APPROX_CONFIDENCES = new Set(['created_at_approx', 'stale_boot_approx']);
 const isApprox = samples.map(s => APPROX_CONFIDENCES.has(s.ts_confidence));
-const pointColors = isApprox.map(a => a ? 'rgba(197,189,236,0.4)' : '#c5bdec');
+const pointColors = isApprox.map(a => a ? 'rgba(0,255,255,0.4)' : '#00ffff');
 const pointRadii  = isApprox.map(a => a ? 2 : 0);
 
 // ============================================================
@@ -306,8 +306,8 @@ const uvChart = new Chart(document.getElementById('chartUv'), {
         datasets: [
             {
                 label: 'UV index',
-                borderColor: '#c5bdec',
-                backgroundColor: 'rgba(197,189,236,0.15)',
+                borderColor: '#00ffff',
+                backgroundColor: 'rgba(0,255,255,0.15)',
                 borderWidth: 2,
                 pointRadius: pointRadii,
                 pointBackgroundColor: pointColors,
@@ -508,7 +508,7 @@ if (dailySummary.length > 0) {
                     label: 'peak UVI',
                     data: dailySummary.map(d => d.peak_uv),
                     backgroundColor: dailySummary.map(d =>
-                        d.approx_only ? 'rgba(197,189,236,0.35)' : '#c5bdec'
+                        d.approx_only ? 'rgba(0,255,255,0.35)' : '#00ffff'
                     ),
                     borderWidth: 0,
                 }],

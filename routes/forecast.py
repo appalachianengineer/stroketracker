@@ -810,7 +810,7 @@ def forecast():
         ('symptoms',     'Symptoms',       '#9b72cf'),
         ('pain_fatigue', 'Pain & Fatigue', '#e85d9e'),
         ('cycle',        'Cycle Phase',    '#9563ec'),
-        ('burden_delta', 'Burden Delta',   '#5b9bd5'),
+        ('burden_delta', 'Burden Delta',   '#00ffff'),
         ('rmssd',        'RMSSD',          '#66bb6a'),
         ('rmssd_instability', 'RMSSD Instability', '#c084fc'),
         ('resp_rate',    'Resp Rate',      '#e0a050'),

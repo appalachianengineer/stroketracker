@@ -100,8 +100,8 @@
 }
 .event-badge.side_effect { background: rgba(192,132,252,0.18); color: #c084fc; border: 1px solid #c084fc; }
 .event-badge.rebound     { background: rgba(224,160,80,0.18); color: #e0a050; border: 1px solid #e0a050; }
-.event-badge.efficacy_change { background: rgba(74,184,184,0.18); color: #4ab8b8; border: 1px solid #4ab8b8; }
-.event-badge.dose_change { background: rgba(91,155,213,0.18); color: #5b9bd5; border: 1px solid #5b9bd5; }
+.event-badge.efficacy_change { background: rgba(0,255,255,0.18); color: #00ffff; border: 1px solid #00ffff; }
+.event-badge.dose_change { background: rgba(0,255,255,0.18); color: #00ffff; border: 1px solid #00ffff; }
 .event-badge.note { background: rgba(153,148,168,0.15); color: #9994a8; border: 1px solid #9994a8; }
 .severity-dots { color: #c084fc; font-family: var(--font-mono); }
 .event-form { display: none; margin-top: var(--space-sm); padding: var(--space-md);
@@ -468,7 +468,7 @@ document.querySelectorAll('.event-form select[name=event_type]').forEach(sel => 
                 const isSup = iv.category === 'supplement';
                 const isPri = iv.is_primary;
                 const color = isPri
-                    ? (isSup ? 'rgba(224,148,58,0.65)' : 'rgba(74,184,184,0.65)')
+                    ? (isSup ? 'rgba(224,148,58,0.65)' : 'rgba(0,255,255,0.65)')
                     : (isSup ? 'rgba(224,148,58,0.35)' : 'rgba(157,114,207,0.35)');
                 ctx.save();
                 ctx.strokeStyle = color;
@@ -494,7 +494,7 @@ document.querySelectorAll('.event-form select[name=event_type]').forEach(sel => 
             labels: HRV.dates,
             datasets: [
                 { label: 'SDNN 7d', data: HRV.hrv_rolling,
-                  borderColor: '#4a90d9', backgroundColor:'transparent',
+                  borderColor: '#00ffff', backgroundColor:'transparent',
                   borderWidth: 2, pointRadius: 0, tension: 0.3, spanGaps: true },
                 { label: 'RMSSD 7d', data: HRV.rmssd_rolling,
                   borderColor: '#9b72cf', backgroundColor:'transparent',

@@ -222,11 +222,11 @@ _SCORE_CATEGORIES = ('uv', 'exertion', 'temperature', 'symptoms', 'pain_fatigue'
 
 # Symptom flag -> the name and colour it is listed under.
 _SYMPTOM_FACTORS = (
-    ('neurological', 'Neurological symptoms', '#4a90d9'),
+    ('neurological', 'Neurological symptoms', '#00ffff'),
     ('cognitive', 'Cognitive symptoms', '#9b72cf'),
     ('musculature', 'Muscle symptoms', '#d4a054'),
     ('migraine', 'Migraine', '#c94040'),
-    ('pulmonary', 'Pulmonary symptoms', '#4ab8b8'),
+    ('pulmonary', 'Pulmonary symptoms', '#00ffff'),
     ('dermatological', 'Skin symptoms', '#d4784a'),
     ('mucosal', 'Mucosal symptoms', '#d4c4a0'),
 )
@@ -391,11 +391,11 @@ def _score_items(obs: dict, user_id: int | None = None,
     burden_delta = obs.get('_symptom_burden_delta')
     if burden_delta is not None:
         if burden_delta >= 3.0:
-            add('burden_delta', 'Symptoms well above your baseline', 3.0 * burden_w, '#5b9bd5')
+            add('burden_delta', 'Symptoms well above your baseline', 3.0 * burden_w, '#00ffff')
         elif burden_delta >= 2.0:
-            add('burden_delta', 'Symptoms above your baseline', 2.0 * burden_w, '#5b9bd5')
+            add('burden_delta', 'Symptoms above your baseline', 2.0 * burden_w, '#00ffff')
         elif burden_delta >= 1.0:
-            add('burden_delta', 'Symptoms slightly above your baseline', 1.0 * burden_w, '#5b9bd5')
+            add('burden_delta', 'Symptoms slightly above your baseline', 1.0 * burden_w, '#00ffff')
 
     # RMSSD baseline deviation (vagal withdrawal signal)
     rmssd_w = weights.get('rmssd_deviation_weight', 0.5)
