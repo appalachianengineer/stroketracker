@@ -826,19 +826,6 @@
                     </a></li>
                     <li><button id="quickNoteBtn" class="nav-note-btn" type="button"
                         title="add a timestamped note">add note</button></li>
-                    <li class="nav-dropdown" id="dataDropdown">
-                        <button type="button" class="nav-dropbtn{% if request.endpoint in ('forecast', 'timeline', 'wearable', 'clinical_record', 'portals_manage', 'search') %} active{% endif %}">
-                            data ▾
-                        </button>
-                        <div class="nav-dropmenu">
-                            <a href="{{ url_for('forecast') }}" class="nav-dropitem{% if request.endpoint == 'forecast' %} active{% endif %}">forecast</a>
-                            <a href="{{ url_for('timeline') }}" class="nav-dropitem{% if request.endpoint == 'timeline' %} active{% endif %}">model</a>
-                            <a href="{{ url_for('wearable') }}" class="nav-dropitem{% if request.endpoint == 'wearable' %} active{% endif %}">wearable</a>
-                            <a href="{{ url_for('clinical_record') }}" class="nav-dropitem{% if request.endpoint == 'clinical_record' %} active{% endif %}">clinical</a>
-                            <a href="{{ url_for('portals_manage') }}" class="nav-dropitem{% if request.endpoint == 'portals_manage' %} active{% endif %}">portal</a>
-                            <a href="{{ url_for('search') }}" class="nav-dropitem{% if request.endpoint == 'search' %} active{% endif %}">search</a>
-                        </div>
-                    </li>
                     {% if track_cycle %}
                     <li><a href="{{ url_for('cycle_view') }}"
                         {% if request.endpoint == 'cycle_view' %}class="active"{% endif %}>
@@ -857,6 +844,19 @@
                         {% if request.endpoint == 'medlog' %}class="active"{% endif %}>
                         medication
                     </a></li>
+                    <li class="nav-dropdown" id="dataDropdown">
+                        <button type="button" class="nav-dropbtn{% if request.endpoint in ('forecast', 'timeline', 'wearable', 'clinical_record', 'portals_manage', 'search') %} active{% endif %}">
+                            data ▾
+                        </button>
+                        <div class="nav-dropmenu">
+                            <a href="{{ url_for('forecast') }}" class="nav-dropitem{% if request.endpoint == 'forecast' %} active{% endif %}">forecast</a>
+                            <a href="{{ url_for('timeline') }}" class="nav-dropitem{% if request.endpoint == 'timeline' %} active{% endif %}">model</a>
+                            <a href="{{ url_for('wearable') }}" class="nav-dropitem{% if request.endpoint == 'wearable' %} active{% endif %}">wearable</a>
+                            <a href="{{ url_for('clinical_record') }}" class="nav-dropitem{% if request.endpoint == 'clinical_record' %} active{% endif %}">clinical</a>
+                            <a href="{{ url_for('portals_manage') }}" class="nav-dropitem{% if request.endpoint == 'portals_manage' %} active{% endif %}">portal</a>
+                            <a href="{{ url_for('search') }}" class="nav-dropitem{% if request.endpoint == 'search' %} active{% endif %}">search</a>
+                        </div>
+                    </li>
                     <li style="margin-left: auto; display: flex; align-items: center; gap: 0.5rem;">
                         <button id="theme-toggle"
                                 style="background: var(--bg-elevated);
