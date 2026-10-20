@@ -764,7 +764,9 @@
            Mobile bottom nav
            ================================================ */
         @media (max-width: 600px) {
-            .app-header { display: none; }
+            /* Header stays visible on phones: wordmark + hamburger (the
+               right-side controls move into the hamburger panel). */
+            .app-header { display: block; }
             body { padding-bottom: 70px; }
 
             .mobile-nav {
@@ -835,26 +837,28 @@
                         {% if request.endpoint == 'daily_entry' %}class="active"{% endif %}>
                         today
                     </a></li>
-                    <li><button id="quickNoteBtn" class="nav-note-btn" type="button"
-                        title="add a timestamped note">add note</button></li>
                     {% if track_cycle %}
                     <li><a href="{{ url_for('cycle_view') }}"
                         {% if request.endpoint == 'cycle_view' %}class="active"{% endif %}>
                         cycle
                     </a></li>
                     {% endif %}
-                    <li><a href="{{ url_for('stress_log') }}"
-                        {% if request.endpoint == 'stress_log' %}class="active"{% endif %}>
-                        stress
-                    </a></li>
                     <li><a href="{{ url_for('activity_log') }}"
                         {% if request.endpoint == 'activity_log' %}class="active"{% endif %}>
-                        view log
+                        full log
                     </a></li>
-                    <li><a href="{{ url_for('medlog') }}"
-                        {% if request.endpoint == 'medlog' %}class="active"{% endif %}>
-                        medication
-                    </a></li>
+                    <li class="nav-dropdown" id="plusDropdown">
+                        <button type="button" class="nav-dropbtn{% if request.endpoint in ('stress_log', 'medlog') %} active{% endif %}">
+                            +++
+                        </button>
+                        <div class="nav-dropmenu">
+                            <button id="quickNoteBtnP" type="button" class="nav-dropitem nav-note-btn"
+                                title="add a timestamped note">note</button>
+                            <a href="{{ url_for('stress_log') }}" class="nav-dropitem{% if request.endpoint == 'stress_log' %} active{% endif %}">stress</a>
+                            <a href="{{ url_for('daily_entry') }}" class="nav-dropitem{% if request.endpoint == 'daily_entry' %} active{% endif %}">activity</a>
+                            <a href="{{ url_for('medlog') }}" class="nav-dropitem{% if request.endpoint == 'medlog' %} active{% endif %}">medication</a>
+                        </div>
+                    </li>
                     <li class="nav-dropdown" id="dataDropdown">
                         <button type="button" class="nav-dropbtn{% if request.endpoint in ('forecast', 'timeline', 'wearable', 'clinical_record', 'portals_manage', 'search') %} active{% endif %}">
                             data ▾
@@ -874,9 +878,11 @@
                 <button id="navHamburgerBtn" class="nav-hamburger" type="button" aria-label="Open menu">☰</button>
                 <div id="navHamburgerMenu" class="nav-burger-menu" hidden>
                     <a href="{{ url_for('daily_entry') }}" class="nav-dropitem{% if request.endpoint == 'daily_entry' %} active{% endif %}">today</a>
-                    <button id="quickNoteBtnH" type="button" class="nav-dropitem nav-note-btn" style="width:100%;">add note</button>
+                    <a href="{{ url_for('activity_log') }}" class="nav-dropitem{% if request.endpoint == 'activity_log' %} active{% endif %}">full log</a>
+                    <div class="nav-burger-sep">+++</div>
+                    <button id="quickNoteBtnH" type="button" class="nav-dropitem nav-note-btn" style="width:100%;">note</button>
                     <a href="{{ url_for('stress_log') }}" class="nav-dropitem{% if request.endpoint == 'stress_log' %} active{% endif %}">stress</a>
-                    <a href="{{ url_for('activity_log') }}" class="nav-dropitem{% if request.endpoint == 'activity_log' %} active{% endif %}">view log</a>
+                    <a href="{{ url_for('daily_entry') }}" class="nav-dropitem{% if request.endpoint == 'daily_entry' %} active{% endif %}">activity</a>
                     <a href="{{ url_for('medlog') }}" class="nav-dropitem{% if request.endpoint == 'medlog' %} active{% endif %}">medication</a>
                     <div class="nav-burger-sep">data</div>
                     <a href="{{ url_for('forecast') }}" class="nav-dropitem{% if request.endpoint == 'forecast' %} active{% endif %}">forecast</a>
@@ -886,6 +892,7 @@
                     <a href="{{ url_for('portals_manage') }}" class="nav-dropitem{% if request.endpoint == 'portals_manage' %} active{% endif %}">portal</a>
                     <a href="{{ url_for('search') }}" class="nav-dropitem{% if request.endpoint == 'search' %} active{% endif %}">search</a>
                 </div>
+                <div id="headerControls" class="header-controls">
                 <button id="theme-toggle"
                         style="background: var(--bg-elevated);
                                border: 1px solid var(--border-subtle);
@@ -936,6 +943,7 @@
                             logout
                         </a>
                         {% endif %}
+                </div>
             </div>
         </div>
     </header>
@@ -990,7 +998,7 @@
                 <button id="quickNoteBtnM" type="button"
                         style="display:block; width:100%; text-align:left; background:none; border:none; font:inherit; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); font-size:0.85rem; cursor:pointer;">add note</button>
                 <a href="{{ url_for('stress_log') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">stress</a>
-                <a href="{{ url_for('activity_log') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">view log</a>
+                <a href="{{ url_for('activity_log') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">full log</a>
                 <a href="{{ url_for('medlog') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">medication</a>
                 <a href="{{ url_for('wearable') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">wearable</a>
                 {% if track_cycle %}
@@ -1145,6 +1153,17 @@ function updateToggleUI(theme) {
         .nav-hamburger { display: inline-block; }
         .header-inner { flex-direction: row; align-items: center; }
     }
+
+    /* Right-side controls: inline row in the header; stacked section when
+       the move script drops them into the hamburger panel (<=600px). */
+    .header-controls { display: flex; align-items: center; gap: 0.5rem; }
+    #navHamburgerMenu .header-controls {
+        flex-direction: column; align-items: stretch; width: 100%;
+        gap: 0; margin-top: var(--space-xs); padding-top: var(--space-xs);
+        border-top: 1px solid var(--border-subtle);
+    }
+    #navHamburgerMenu .header-controls a { display: block; width: 100%;
+        padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); }
 </style>
 <div id="quickNoteModal" class="qn-overlay" hidden>
     <div class="qn-dialog" role="dialog" aria-label="Add a timestamped note">
@@ -1170,8 +1189,9 @@ function updateToggleUI(theme) {
     var btn = document.getElementById('quickNoteBtn');
     var btnMobile = document.getElementById('quickNoteBtnM');
     var btnBurger = document.getElementById('quickNoteBtnH');
+    var btnPlus = document.getElementById('quickNoteBtnP');
     var overlay = document.getElementById('quickNoteModal');
-    if ((!btn && !btnMobile && !btnBurger) || !overlay) return;
+    if ((!btn && !btnMobile && !btnBurger && !btnPlus) || !overlay) return;
     var textEl = document.getElementById('qnText');
     var dateEl = document.getElementById('qnDate');
     var timeEl = document.getElementById('qnTime');
@@ -1192,7 +1212,7 @@ function updateToggleUI(theme) {
     function close() { overlay.hidden = true; }
 
     [btn, btnMobile].forEach(function (b) { if (b) b.addEventListener('click', open); });
-    [btnBurger].forEach(function (b) { if (b) b.addEventListener('click', open); });
+    [btnBurger, btnPlus].forEach(function (b) { if (b) b.addEventListener('click', open); });
     cancelBtn.addEventListener('click', close);
     overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
     document.addEventListener('keydown', function (e) {
@@ -1210,9 +1230,11 @@ function updateToggleUI(theme) {
             if (!data.ok) { statusEl.textContent = data.error || 'Could not save.'; return; }
             statusEl.textContent = 'saved ✓';
             textEl.value = '';
-            btn.textContent = 'add note ✓';
+            if (btn) {
+                btn.textContent = 'add note ✓';
+                setTimeout(function () { btn.textContent = 'add note'; }, 2500);
+            }
             setTimeout(function () { close(); statusEl.textContent = ''; }, 700);
-            setTimeout(function () { btn.textContent = 'add note'; }, 2500);
         }).catch(function () {
             saveBtn.disabled = false;
             statusEl.textContent = 'Could not save.';
@@ -1222,19 +1244,22 @@ function updateToggleUI(theme) {
 </script>
 
 <script>
-// Data dropdown (nav): click to open, click anywhere or pick an item to close.
+// Nav dropdowns (data, +++): click to open, click anywhere or pick an item
+// to close.
 (function () {
-    var dd = document.getElementById('dataDropdown');
-    if (!dd) return;
-    var btn = dd.querySelector('.nav-dropbtn');
-    btn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        dd.classList.toggle('open');
+    ['dataDropdown', 'plusDropdown'].forEach(function (id) {
+        var dd = document.getElementById(id);
+        if (!dd) return;
+        var btn = dd.querySelector('.nav-dropbtn');
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            dd.classList.toggle('open');
+        });
+        dd.querySelectorAll('.nav-dropitem').forEach(function (item) {
+            item.addEventListener('click', function () { dd.classList.remove('open'); });
+        });
+        document.addEventListener('click', function () { dd.classList.remove('open'); });
     });
-    dd.querySelectorAll('.nav-dropitem').forEach(function (item) {
-        item.addEventListener('click', function () { dd.classList.remove('open'); });
-    });
-    document.addEventListener('click', function () { dd.classList.remove('open'); });
 })();
 </script>
 
@@ -1253,6 +1278,28 @@ function updateToggleUI(theme) {
         item.addEventListener('click', function () { menu.hidden = true; });
     });
     document.addEventListener('click', function () { menu.hidden = true; });
+})();
+</script>
+
+<script>
+// Below 600px the right-side controls (theme, name, help, logout) move into
+// the hamburger panel; wider screens keep them in the header row. One set
+// of elements, so ids and listeners stay intact.
+(function () {
+    var controls = document.getElementById('headerControls');
+    var menu = document.getElementById('navHamburgerMenu');
+    var right = controls ? controls.parentElement : null;
+    if (!controls || !menu || !right) return;
+    var mql = window.matchMedia('(max-width: 600px)');
+    function place() {
+        if (mql.matches && controls.parentElement !== menu) {
+            menu.appendChild(controls);
+        } else if (!mql.matches && controls.parentElement !== right) {
+            right.appendChild(controls);
+        }
+    }
+    place();
+    mql.addEventListener('change', place);
 })();
 </script>
 

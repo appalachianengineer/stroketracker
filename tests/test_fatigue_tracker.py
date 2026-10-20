@@ -142,8 +142,10 @@ def test_daily_form_renders_the_new_fields(app_client, user, monkeypatch):
     html = app_client.get("/daily?date=2026-10-19").get_data(as_text=True)
     assert 'name="fatigue_morning"' in html
     assert 'name="fatigue_evening"' in html
-    # The nav quick-note button and its modal ship on every page via base.html.
-    assert 'id="quickNoteBtn"' in html
+    # Quick-note triggers (+++ dropdown, hamburger) and the modal ship on
+    # every page via base.html.
+    assert 'id="quickNoteBtnP"' in html
+    assert 'id="quickNoteBtnH"' in html
     assert 'id="quickNoteModal"' in html
 
 
@@ -344,6 +346,8 @@ def test_nav_has_data_dropdown_with_add_note_and_activity_log(app_client, user):
     assert 'href="/forecast"' in html             # forecast moved in
     assert 'href="/model"' in html               # model moved in
     assert 'href="/search"' in html              # search moved in
-    assert "view log" in html                    # renamed activity log
+    assert "full log" in html                     # renamed view log
+    assert 'id="plusDropdown"' in html            # +++ quick-log dropdown
     assert 'href="/stress"' in html and 'href="/medlog"' in html
     assert 'id="navHamburgerBtn"' in html        # narrow-screen hamburger
+    assert 'id="headerControls"' in html          # movable right-side controls
