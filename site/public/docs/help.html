@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Using sardinetracker &#8212; sardinetracker</title>
+<title>Using stroketracker &#8212; stroketracker</title>
 <meta name="description" content="The in-app help, on the web: what each view is for, what the numbers mean, and how to log a day without it becoming a chore.">
 <link rel="canonical" href="https://sardinetracker.com/docs/help">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -11,8 +11,8 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sardinetracker.com/docs/help">
-<meta property="og:site_name" content="sardinetracker">
-<meta property="og:title" content="Using sardinetracker &#8212; sardinetracker">
+<meta property="og:site_name" content="stroketracker">
+<meta property="og:title" content="Using stroketracker &#8212; stroketracker">
 <meta property="og:description" content="The in-app help, on the web: what each view is for, what the numbers mean, and how to log a day without it becoming a chore.">
 <meta property="og:image" content="https://sardinetracker.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -105,19 +105,19 @@
   footer .links{display:flex;gap:20px;flex-wrap:wrap;font-family:var(--mono);font-size:.8rem;margin-bottom:16px}
   footer p{max-width:70ch}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Using sardinetracker", "description": "The in-app help, on the web: what each view is for, what the numbers mean, and how to log a day without it becoming a chore.", "url": "https://sardinetracker.com/docs/help", "inLanguage": "en", "isPartOf": {"@type": "WebSite", "@id": "https://sardinetracker.com/#site"}, "about": {"@type": "SoftwareApplication", "@id": "https://sardinetracker.com/#app"}, "author": {"@type": "Person", "name": "Alaric Moore"}, "license": "https://www.gnu.org/licenses/agpl-3.0.html"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Using stroketracker", "description": "The in-app help, on the web: what each view is for, what the numbers mean, and how to log a day without it becoming a chore.", "url": "https://sardinetracker.com/docs/help", "inLanguage": "en", "isPartOf": {"@type": "WebSite", "@id": "https://sardinetracker.com/#site"}, "about": {"@type": "SoftwareApplication", "@id": "https://sardinetracker.com/#app"}, "author": {"@type": "Person", "name": "Alaric Moore"}, "license": "https://www.gnu.org/licenses/agpl-3.0.html"}</script>
 </head>
 <body>
 <header>
   <div class="wrap nav">
-    <div class="wordmark"><a href="/" style="color:inherit">sardine<span>tracker</span></a></div>
-    <ul><li><a href="/docs/remote-access">remote access</a></li><li><a href="/docs/troubleshooting">troubleshooting</a></li><li><a class="here" href="/docs/help">help</a></li><li><a href="/docs/features">features</a></li><li><a href="/docs/importing">importing</a></li><li><a href="https://github.com/alaricmoore/sardinetracker">github &#8599;</a></li></ul>
+    <div class="wordmark"><a href="/" style="color:inherit">stroke<span>tracker</span></a></div>
+    <ul><li><a href="/docs/remote-access">remote access</a></li><li><a href="/docs/troubleshooting">troubleshooting</a></li><li><a class="here" href="/docs/help">help</a></li><li><a href="/docs/features">features</a></li><li><a href="/docs/importing">importing</a></li><li><a href="https://github.com/alaricmoore/stroketracker">github &#8599;</a></li></ul>
   </div>
 </header>
 <main>
   <div class="wrap dochead">
     <p class="eyebrow">documentation</p>
-    <h1>Using sardinetracker</h1>
+    <h1>Using stroketracker</h1>
     <p>The in-app help, on the web: what each view is for, what the numbers mean, and how to log a day without it becoming a chore.</p>
   </div>
   <div class="wrap layout">
@@ -125,7 +125,7 @@
     <article class="prose"><p><em>A plain-English guide to using the app and understanding what it's tracking.</em></p>
 <hr />
 <h2 id="what-is-this-app">What Is This App?</h2>
-<p>Sardinetracker (formerly biotracker) is a personal health logging app built specifically for people managing photosensitive autoimmune and rheumatic conditions — things like lupus, mixed connective tissue disease, or any illness where symptoms are unpredictable, hard to explain to doctors, and deeply affected by things like sun exposure, sleep, and hormonal cycles.</p>
+<p>Stroketracker (formerly biotracker) is a personal health logging app built specifically for people managing photosensitive autoimmune and rheumatic conditions — things like lupus, mixed connective tissue disease, or any illness where symptoms are unpredictable, hard to explain to doctors, and deeply affected by things like sun exposure, sleep, and hormonal cycles.</p>
 <p>It was built by Alaric, who has lupus, because she couldn't find a tool that did what she actually needed: connect the dots between daily life and disease activity, and produce something useful to bring to a 15-minute doctor's appointment.</p>
 <p>Your data lives on whichever server you're logged into — if you're reading this on someone else's instance, ask them where it's hosted and how it's backed up. If you're running your own, it's in a SQLite file on your own machine. Either way it is not sold, shared, or sent to any third party. UV index data is pulled from a public weather API anonymously using only GPS coordinates — that's the only outside connection the app makes.</p>
 <hr />
@@ -280,7 +280,7 @@
 <ol>
 <li>Install the <strong>ntfy</strong> app on your phone (App Store or Google Play).</li>
 <li>In the app, tap <strong>+</strong> and subscribe to a topic. Make the name long and unguessable, like <code>sardines-k7x9qm3p</code>. <strong>ntfy topics are public:</strong> anyone who knows the name can read what's sent to it, so don't use your name or anything else obvious.</li>
-<li>In sardinetracker, open <strong>Settings</strong>, enter the same name in <strong>ntfy topic</strong>, and save.</li>
+<li>In stroketracker, open <strong>Settings</strong>, enter the same name in <strong>ntfy topic</strong>, and save.</li>
 </ol>
 <p>Each account sets its own topic, so everyone on a shared instance gets only their own notifications. If you'd rather not rely on the public ntfy.sh service, you can run your own ntfy server and put its address in the <strong>ntfy server</strong> field.</p>
 <h3 id="what-youll-get">What you'll get</h3>
@@ -336,14 +336,14 @@
 </ul>
 <hr />
 <h2 id="auto-sync-from-your-phone">Auto-Sync from Your Phone</h2>
-<p>Your phone can send biometric data to sardinetracker automatically, with no typing required for steps, HRV, resting heart rate, respiratory rate, SpO2, or basal body temperature. Each platform has its own companion app.</p>
+<p>Your phone can send biometric data to stroketracker automatically, with no typing required for steps, HRV, resting heart rate, respiratory rate, SpO2, or basal body temperature. Each platform has its own companion app.</p>
 <h3 id="iphone-sardinessync">iPhone: sardinessync</h3>
 <p><strong><a href="https://github.com/alaricmoore/sardinessync">sardinessync</a></strong> is a native iOS companion app that:</p>
 <ul>
 <li>Reads everything HealthKit offers, including RR intervals for overnight RMSSD, Time in Daylight, and respiratory rate</li>
 <li>Computes RMSSD from raw heartbeat intervals on your phone (better accuracy than Apple's built-in HRV number)</li>
 <li>Handles background sync automatically, with no manual triggering</li>
-<li>Gives you a tab with mobile-friendly sardinetracker pages and local push notifications for flare alerts / medication doses</li>
+<li>Gives you a tab with mobile-friendly stroketracker pages and local push notifications for flare alerts / medication doses</li>
 </ul>
 <p>It's not in the App Store (not paying Apple $99/yr for a hobby project's listing). You clone the repo, build it, and install it on your iPhone yourself. With a free personal Apple ID the app expires every 7 days and needs a re-install, about 2 minutes once you're set up. If you pay Apple the $99/yr, it lasts a year between rebuilds.</p>
 <p>See the sardinessync repo's README for the full setup walkthrough. The short version: change the bundle ID to something unique to you, set signing team to your personal Apple ID, build, and configure the server URL and API token inside the app on first launch.</p>
@@ -355,7 +355,7 @@
 <li><strong>Symptoms, flare status, notes</strong>: these are personal observations that only you can provide</li>
 </ul>
 <h3 id="a-note-about-your-api-token">A note about your API token</h3>
-<p>Whatever the app uses to reach the server, an API token or a client secret for signed requests, can write your biometrics and read your flare score. Treat it like a password, and don't paste it anywhere you wouldn't paste your sardinetracker login. If it may have leaked, the remote access guide explains how to replace it.</p>
+<p>Whatever the app uses to reach the server, an API token or a client secret for signed requests, can write your biometrics and read your flare score. Treat it like a password, and don't paste it anywhere you wouldn't paste your stroketracker login. If it may have leaked, the remote access guide explains how to replace it.</p>
 <hr />
 <h2 id="searching">Searching</h2>
 <p>The <strong>Search</strong> page looks through your daily entries, labs, clinical events and medications all at once. Results are grouped by type; click one to open it.</p>
@@ -363,7 +363,7 @@
 <h2 id="backing-up-your-data">Backing Up Your Data</h2>
 <p><strong>Download your data.</strong> On the <strong>Search</strong> page, under <em>data management</em>, <strong>Download All Data</strong> saves a zip with a CSV of each of your tables (these open in any spreadsheet) and the documents you've uploaded. It holds only your own records, even on an instance shared with other people. On a single-user instance it also includes the database file itself, <code>config.json</code> and your Forecast Lab weights.</p>
 <p><strong>Delete your data.</strong> Next to it, <strong>Delete</strong> removes your account and everything in it, including uploaded documents, and logs you out. Nobody else's account is touched. You have to type <code>DELETE MY DATA</code> to confirm, and there is no undo, so download first.</p>
-<p><strong>If you run your own instance</strong>, everything lives in the sardinetracker folder (or wherever <code>SARDINE_DATA_DIR</code> points):</p>
+<p><strong>If you run your own instance</strong>, everything lives in the stroketracker folder (or wherever <code>SARDINE_DATA_DIR</code> points):</p>
 <ul>
 <li><code>biotracking.db</code>: the database</li>
 <li><code>config.json</code>: settings and secrets</li>
@@ -413,9 +413,9 @@ python setup.py
   <div class="wrap">
     <div class="links">
       <a href="/">sardinetracker.com</a>
-      <a href="https://github.com/alaricmoore/sardinetracker">source &#8599;</a>
-      <a href="https://github.com/alaricmoore/sardinetracker/blob/main/MODEL.md">how the model works &#8599;</a>
-      <a href="https://github.com/alaricmoore/sardinetracker/blob/main/LICENSE">AGPL-3.0 &#8599;</a>
+      <a href="https://github.com/alaricmoore/stroketracker">source &#8599;</a>
+      <a href="https://github.com/alaricmoore/stroketracker/blob/main/MODEL.md">how the model works &#8599;</a>
+      <a href="https://github.com/alaricmoore/stroketracker/blob/main/LICENSE">AGPL-3.0 &#8599;</a>
     </div>
     <p>A one-person project, built between doctor appointments, machine repair, and terrariums.
        Not medical advice; always consult qualified clinicians. Trust your observations.

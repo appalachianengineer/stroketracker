@@ -39,10 +39,10 @@ ROOT = SITE.parent
 OUT = SITE / "public" / "docs"
 
 # Only this repo may publish. See the SAFETY note above.
-ALLOWED_ORIGIN = "sardinetracker"
+ALLOWED_ORIGIN = "stroketracker"
 FORBIDDEN_ORIGIN = "private-track"
 
-GITHUB = "https://github.com/alaricmoore/sardinetracker"
+GITHUB = "https://github.com/alaricmoore/stroketracker"
 
 # Documents to publish. Adding one is a single entry -- but read the SAFETY
 # note first if the document has a private counterpart.
@@ -67,7 +67,7 @@ DOCS = [
         "src": "help.md",
         "slug": "help",
         "nav": "help",
-        "title": "Using sardinetracker",
+        "title": "Using stroketracker",
         "blurb": "The in-app help, on the web: what each view is for, what the numbers "
                  "mean, and how to log a day without it becoming a chore.",
     },
@@ -230,7 +230,7 @@ def nav(current: str) -> str:
     items = "".join(parts)
     return f"""<header>
   <div class="wrap nav">
-    <div class="wordmark"><a href="/" style="color:inherit">sardine<span>tracker</span></a></div>
+    <div class="wordmark"><a href="/" style="color:inherit">stroke<span>tracker</span></a></div>
     <ul>{items}<li><a href="{GITHUB}">github &#8599;</a></li></ul>
   </div>
 </header>"""
@@ -256,7 +256,7 @@ def shell(*, title, desc, canonical, body, current="") -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{html.escape(title)} &#8212; sardinetracker</title>
+<title>{html.escape(title)} &#8212; stroketracker</title>
 <meta name="description" content="{html.escape(desc)}">
 <link rel="canonical" href="{canonical}">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -264,8 +264,8 @@ def shell(*, title, desc, canonical, body, current="") -> str:
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:url" content="{canonical}">
-<meta property="og:site_name" content="sardinetracker">
-<meta property="og:title" content="{html.escape(title)} &#8212; sardinetracker">
+<meta property="og:site_name" content="stroketracker">
+<meta property="og:title" content="{html.escape(title)} &#8212; stroketracker">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:image" content="https://sardinetracker.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -393,14 +393,14 @@ def build_index() -> None:
     )
     page = shell(
         title="Documentation",
-        desc="Guides for running your own sardinetracker instance: remote access, "
+        desc="Guides for running your own stroketracker instance: remote access, "
              "troubleshooting, and how to use the app day to day.",
         canonical="https://sardinetracker.com/docs",
         body=f"""<main>
   <div class="wrap dochead">
     <p class="eyebrow">documentation</p>
     <h1>Running your own instance.</h1>
-    <p>sardinetracker is meant to live on your machine, which means the parts nobody
+    <p>stroketracker is meant to live on your machine, which means the parts nobody
        else can do for you &#8212; getting to it from outside the house, and working out
        what broke when it stops answering &#8212; are documented here rather than assumed.</p>
   </div>

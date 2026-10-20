@@ -992,3 +992,80 @@ def doses_today():
     today_str = date.today().isoformat()
     doses = db.get_todays_doses(uid(), today_str)
     return jsonify(doses)
+
+
+# ============================================================
+# Medication log — consumption times + reminder control
+# ============================================================
+
+@app.route("/medlog")
+def medlog():
+    """Medication log: active medications, upcoming consumption times,
+    and the on/off control for dose reminders."""
+    user_id = uid()
+    today_str = date.today().isoformat()
+    meds = db.get_active_medications(user_id)
+    prefs = db.get_user_preferences(user_id) or {}
+    raw = prefs.get("med_reminders_enabled")
+    reminders_on = 1 if raw is None else int(raw)
+
+    # Upcoming doses for the next 7 days, grouped by date
+    doses = []
+    for offset in range(0, 7):
+        day = (date.today() + timedelta(days=offset)).isoformat()
+        day_doses = db.get_todays_doses(user_id, day)
+        if day_doses:
+            doses.append({"date": day, "doses": day_doses})
+    return render_template("medication_log.html", meds=meds, doses=doses,
+                           reminders_on=reminders_on, today=today_str)
+
+
+@app.route("/medlog/reminders", methods=["POST"])
+def medlog_reminders():
+    """Reminder control: turn dose reminders on or off for this user."""
+    turn_on = request.form.get("enabled") == "1"
+    db.upsert_user_preferences(uid(), {"med_reminders_enabled": 1 if turn_on else 0})
+    return redirect(url_for("medlog"))
+
+
+@app.route("/medlog/dose/add", methods=["POST"])
+def medlog_dose_add():
+    """Schedule consumption times for a medication: one dose per day at the
+    chosen time, repeating for the chosen number of days."""
+    med_id = request.form.get("medication_id", type=int)
+    date_str = (request.form.get("date") or date.today().isoformat()).strip()
+    time_str = (request.form.get("time") or "09:00").strip()
+    repeat_days = request.form.get("repeat_days", 7, type=int) or 7
+
+    med = db.get_medication(uid(), med_id) if med_id else None
+    try:
+        start = datetime.strptime(date_str, "%Y-%m-%d").date()
+        datetime.strptime(time_str, "%H:%M")
+    except (ValueError, TypeError):
+        return redirect(url_for("medlog"))
+    if not med:
+        return redirect(url_for("medlog"))
+    repeat_days = max(1, min(repeat_days, 30))
+
+    # scheduled_doses.taper_schedule_id is NOT NULL in the schema: standalone
+    # consumption times attach to the medication's active schedule, or a
+    # fresh standing one when none exists.
+    taper = db.get_active_taper_for_medication(uid(), med_id)
+    taper_id = taper["id"] if taper else db.create_taper_schedule(uid(), med_id, date_str)
+
+    label = med["drug_name"]
+    if med.get("dose") is not None and med.get("unit"):
+        label = f'{med["drug_name"]} {med["dose"]:g} {med["unit"]}'
+    doses = []
+    for offset in range(repeat_days):
+        day = (start + timedelta(days=offset)).isoformat()
+        doses.append({
+            "taper_schedule_id": taper_id,
+            "medication_id": med_id,
+            "scheduled_datetime": f"{day} {time_str}",
+            "dose_label": label,
+            "dose_amount": med.get("dose"),
+            "dose_unit": med.get("unit"),
+        })
+    db.insert_scheduled_doses(uid(), doses)
+    return redirect(url_for("medlog"))

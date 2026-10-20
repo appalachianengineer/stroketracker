@@ -150,9 +150,15 @@ def _portal_symptom_window(owner_id: int) -> dict:
     pain = [o["pain_scale"] for o in observations if o.get("pain_scale") is not None]
     fatigue = [o["fatigue_scale"] for o in observations
                if o.get("fatigue_scale") is not None]
+    fatigue_morning = [o["fatigue_morning"] for o in observations
+                      if o.get("fatigue_morning") is not None]
+    fatigue_evening = [o["fatigue_evening"] for o in observations
+                       if o.get("fatigue_evening") is not None]
     flares = sorted(
         [{"date": o["date"], "severity": o.get("flare_severity"),
-          "pain": o.get("pain_scale"), "fatigue": o.get("fatigue_scale")}
+          "pain": o.get("pain_scale"), "fatigue": o.get("fatigue_scale"),
+          "fatigue_morning": o.get("fatigue_morning"),
+          "fatigue_evening": o.get("fatigue_evening")}
          for o in observations if o.get("flare_occurred")],
         key=lambda f: f["date"], reverse=True)
     return {
@@ -160,7 +166,9 @@ def _portal_symptom_window(owner_id: int) -> dict:
         "period": {"start": start, "end": end, "obs_days": len(observations),
                    "flare_days": len(flares),
                    "mean_pain": round(sum(pain) / len(pain), 1) if pain else None,
-                   "mean_fatigue": round(sum(fatigue) / len(fatigue), 1) if fatigue else None},
+                   "mean_fatigue": round(sum(fatigue) / len(fatigue), 1) if fatigue else None,
+                   "mean_fatigue_morning": round(sum(fatigue_morning) / len(fatigue_morning), 1) if fatigue_morning else None,
+                   "mean_fatigue_evening": round(sum(fatigue_evening) / len(fatigue_evening), 1) if fatigue_evening else None},
         "symptom_freq": symptom_frequency(observations),
         "flares": flares,
     }
@@ -223,6 +231,8 @@ def portal_view(token):
             "serology": _serology_tags(labs["key_labs"]),
             "mean_pain": period["mean_pain"],
             "mean_fatigue": period["mean_fatigue"],
+            "mean_fatigue_morning": period["mean_fatigue_morning"],
+            "mean_fatigue_evening": period["mean_fatigue_evening"],
         },
         findings=generate_findings(sym["observations"], uv, period["start"],
                                    period["end"], user_id=owner_id),

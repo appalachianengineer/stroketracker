@@ -1,16 +1,16 @@
-# Remote Access Guide — sardinetracker
+# Remote Access Guide — stroketracker
 
 ## Read This First
 
-This document describes how to access sardinetracker from outside your local network — from your phone on cellular, from work, from anywhere.
+This document describes how to access stroketracker from outside your local network — from your phone on cellular, from work, from anywhere.
 
 Before you do any of this, understand what you are doing:
 
 **Anything connected to the internet is dangerous and insecure. The most secure place for your health data is in your own head with a tight lip. A faraday cage helps too.**
 
-The default sardinetracker setup runs on localhost. Nothing leaves your computer. Nobody can reach it but via physical access to that machine, *on* that machine, on *that* network. That is the safest possible configuration and it is sufficient for most people.
+The default stroketracker setup runs on localhost. Nothing leaves your computer. Nobody can reach it but via physical access to that machine, *on* that machine, on *that* network. That is the safest possible configuration and it is sufficient for most people.
 
-This guide exists for people who understand the risk surface and want remote access anyway. If you are not comfortable with concepts like VPNs, reverse proxies, open ports, and what it means to expose a service to the internet, stop here. Use the local setup. It is genuinely good enough; for the gap between the doctor's waiting room or the ER for four hours and getting home to your own network, travel with a notebook. Seriously, it's great therapy and also provides notes for future-you when you want to log the whole thing in sardinetracker.
+This guide exists for people who understand the risk surface and want remote access anyway. If you are not comfortable with concepts like VPNs, reverse proxies, open ports, and what it means to expose a service to the internet, stop here. Use the local setup. It is genuinely good enough; for the gap between the doctor's waiting room or the ER for four hours and getting home to your own network, travel with a notebook. Seriously, it's great therapy and also provides notes for future-you when you want to log the whole thing in stroketracker.
 
 If you proceed, you accept that you are responsible for the security of your own data. The author of this software is not responsible for data exposure resulting from network configuration choices you make.
 
@@ -66,7 +66,7 @@ Cloudflare edge (terminates TLS, serves your custom domain)
         |
         | (encrypted tunnel established by cloudflared running on the Pi)
         |
-Raspberry Pi (your home network, running sardinetracker on localhost)
+Raspberry Pi (your home network, running stroketracker on localhost)
 ```
 
 The Pi does not need a public IP. It does not need any router ports forwarded. A small daemon called `cloudflared` runs on the Pi and makes an *outbound* connection to Cloudflare's edge. When you visit `app.yourdomain.com`, Cloudflare routes the request down that tunnel to your Flask app on the Pi.
@@ -82,7 +82,7 @@ Your database never leaves the Pi.
 - A free Cloudflare account
 - Basic comfort with SSH and the Linux command line (`man -k` is your friend)
 
-### Step 1: Get sardinetracker running on the Pi
+### Step 1: Get stroketracker running on the Pi
 
 Follow the standard installation instructions in the README. Verify it runs on `http://localhost:5000` from the Pi itself before touching any networking. If you don't have a keyboard or screen, install headless debian onto the pi and ssh into it. You don't need a UI for any of this.
 
@@ -140,11 +140,11 @@ Save. Cloudflare automatically creates the DNS record. Within seconds, `https://
 
 ### Step 6: Verify
 
-From your phone on cellular (not your home WiFi — that's the whole point), visit `https://app.yourdomain.com`. You should see the sardinetracker login page. Log in, poke around. If it works, you're done with the network side.
+From your phone on cellular (not your home WiFi — that's the whole point), visit `https://app.yourdomain.com`. You should see the stroketracker login page. Log in, poke around. If it works, you're done with the network side.
 
 ### Optional: add Cloudflare Access on top
 
-Sardinetracker has its own login, but that's one password facing the open internet. **Cloudflare Access** adds a second gate at Cloudflare's edge, in front of the tunnel: visitors prove who they are before a request ever reaches the Pi. Your Flask login is untouched and still applies — Access sits in front of it.
+Stroketracker has its own login, but that's one password facing the open internet. **Cloudflare Access** adds a second gate at Cloudflare's edge, in front of the tunnel: visitors prove who they are before a request ever reaches the Pi. Your Flask login is untouched and still applies — Access sits in front of it.
 
 Access binds to a *hostname*, not to a server. Your tunnel already answers "where does this traffic go", so there is no IP, port, or protocol to enter here. If a setup wizard asks you for those, you're in the flow for people who don't have a tunnel yet — back out of it.
 
@@ -239,22 +239,22 @@ curl -s -w '\nsync      %{http_code}\n' -X POST -H 'Content-Type: application/js
 |---------|--------|----------------|
 | `/` | 302 to `<teamname>.cloudflareaccess.com` | the gate is live |
 | `/portals` | 302 to Access | management page is gated — the wildcard didn't leak |
-| `/portal/badtoken` | **403** from sardinetracker | bypass works; traffic reached the Pi |
+| `/portal/badtoken` | **403** from stroketracker | bypass works; traffic reached the Pi |
 | `POST /api/health-sync` | **401** `{"error":"unauthorized"}` | bypass works; bearer auth still enforced |
 
-One quirk that looks like a failure and isn't: a **GET** on `/api/health-sync` redirects to `/login` rather than returning 401. That's sardinetracker's own `require_login`, which sees `request.endpoint` as `None` on a 405 method mismatch. The POST path — the one your phone and wearable actually use — returns clean JSON. Test with POST.
+One quirk that looks like a failure and isn't: a **GET** on `/api/health-sync` redirects to `/login` rather than returning 401. That's stroketracker's own `require_login`, which sees `request.endpoint` as `None` on a 405 method mismatch. The POST path — the one your phone and wearable actually use — returns clean JSON. Test with POST.
 
 **Three things curl cannot tell you.** MFA fires *after* identity, behind the login — from the outside, a gate with MFA and a gate without it are byte-identical. That's the point of it, and it's also why you have to check these by hand:
 
 - Click a real portal link and confirm the record still renders. A 403 on a bad token proves traffic reaches the Pi; only a live token proves the page still draws.
-- Sign in from a private window. You should hit, in order: the Access login → your PIN or identity provider → **an authenticator challenge** → *then* the sardinetracker Flask login. If that third step doesn't appear and you land straight on the Flask login, MFA is configured but not enforcing — check the organization switch and the Authentication duration.
+- Sign in from a private window. You should hit, in order: the Access login → your PIN or identity provider → **an authenticator challenge** → *then* the stroketracker Flask login. If that third step doesn't appear and you land straight on the Flask login, MFA is configured but not enforcing — check the organization switch and the Authentication duration.
 - Confirm your phone actually completes a sync, rather than trusting the 401 above. The 401 proves Access let the request through to Flask; it doesn't prove your token is still right.
 
 Keep that table somewhere you can reach when the site *isn't* reachable. [TROUBLESHOOTING.md](TROUBLESHOOTING.md) has it alongside symptom-by-symptom triage for the rest of the stack — tunnel, Tailscale, backups, and the portal and API lanes.
 
-### Sardinetracker sees Cloudflare IPs, not real user IPs
+### Stroketracker sees Cloudflare IPs, not real user IPs
 
-Behind a Cloudflare tunnel, `request.remote_addr` in Flask is a Cloudflare edge IP, not the actual visitor's IP. If you need the real client IP (for logging, rate limiting, etc.), Cloudflare passes it in the `CF-Connecting-IP` header. Flask doesn't read it by default; for sardinetracker's purposes (a personal app with login) you likely don't need to bother.
+Behind a Cloudflare tunnel, `request.remote_addr` in Flask is a Cloudflare edge IP, not the actual visitor's IP. If you need the real client IP (for logging, rate limiting, etc.), Cloudflare passes it in the `CF-Connecting-IP` header. Flask doesn't read it by default; for stroketracker's purposes (a personal app with login) you likely don't need to bother.
 
 ---
 
@@ -273,11 +273,11 @@ Cloud VPS (public IP, runs nginx as reverse proxy, runs Tailscale)
         |
         | (Tailscale encrypted tunnel)
         |
-Raspberry Pi (your home network, runs Tailscale + sardinetracker)
+Raspberry Pi (your home network, runs Tailscale + stroketracker)
         |
         | (localhost)
         |
-sardinetracker app + SQLite database
+stroketracker app + SQLite database
 ```
 
 Your database never leaves the Raspberry Pi, but what you view and send does pass through the VPS in readable form. Your phone connects to the VPS's public IP over HTTPS; nginx on the VPS ends that HTTPS connection, then forwards each request to the Pi over the encrypted Tailscale tunnel. The VPS provider's network only carries encrypted traffic, but anyone with access to the VM itself (you, or the provider) could read what passes through nginx.
@@ -291,7 +291,7 @@ Your database never leaves the Raspberry Pi, but what you view and send does pas
 - Basic comfort with SSH and the Linux command line
 - Starlink or any ISP — this setup works without a static public IP at home, which is the point
 
-### Step 1: Install sardinetracker on the Raspberry Pi
+### Step 1: Install stroketracker on the Raspberry Pi
 
 Same as Option A — get it running on `http://localhost:5000` first. For this path, you'll need to change the bind address in step 6 below.
 
@@ -325,7 +325,7 @@ Install nginx on the VPS:
 sudo apt update && sudo apt install nginx -y
 ```
 
-Create a config at `/etc/nginx/sites-available/sardinetracker`:
+Create a config at `/etc/nginx/sites-available/stroketracker`:
 
 ```nginx
 server {
@@ -333,7 +333,7 @@ server {
     server_name YOUR_VPS_PUBLIC_IP;
 
     # Basic auth is strongly recommended — see security notes below
-    # auth_basic "sardinetracker";
+    # auth_basic "stroketracker";
     # auth_basic_user_file /etc/nginx/.htpasswd;
 
     location / {
@@ -349,7 +349,7 @@ Replace `YOUR_VPS_PUBLIC_IP` and `YOUR_PI_TAILSCALE_IP` with the actual values.
 Enable the config:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/sardinetracker /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/stroketracker /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
@@ -366,7 +366,7 @@ sudo ufw enable
 
 If your provider has a separate cloud-level firewall (Oracle did, AWS does), open those ports in their console too.
 
-### Step 6: Start sardinetracker on the Pi listening on Tailscale's interface
+### Step 6: Start stroketracker on the Pi listening on Tailscale's interface
 
 Out of the box, `app.py` binds `0.0.0.0`, every network interface, so traffic arriving from the VPS over Tailscale already reaches it. So does traffic from anyone on your home WiFi, who skips nginx and its basic auth entirely. Bind to the Pi's Tailscale address instead, so only your tailnet can reach Flask. Find it with `tailscale ip -4` on the Pi, then in `app.py` change:
 
@@ -386,7 +386,7 @@ Restart the app. You should now be able to reach it from your VPS's public IP. A
 Use systemd, screen, or tmux so the app doesn't die when you close SSH:
 
 ```bash
-screen -S sardinetracker
+screen -S stroketracker
 python3 app.py
 # Ctrl+A, D to detach
 ```
@@ -401,15 +401,15 @@ It's a reasonable middle ground if you want to skip the VPS but don't want Cloud
 
 ## Security Notes — Please Read These (apply to both options)
 
-### Use a strong password on sardinetracker itself
+### Use a strong password on stroketracker itself
 
-Whichever path you choose, sardinetracker's own login is the last line of defense. Use a real password — long, unique, not your email password, not your phone PIN.
+Whichever path you choose, stroketracker's own login is the last line of defense. Use a real password — long, unique, not your email password, not your phone PIN.
 
 ### Harden the app itself
 
 Everything here uses settings and code you already have. Work through it before exposing the app, and look it over again after you update.
 
-**Keep `config.json` readable only by you.** It holds `secret_key`, which signs your login cookie (anyone who has it can forge a logged-in session), plus `api_token` and `wearable_token`. `setup.py` writes the file with your system's default permissions, which usually let every account on the machine read it. On the machine running sardinetracker:
+**Keep `config.json` readable only by you.** It holds `secret_key`, which signs your login cookie (anyone who has it can forge a logged-in session), plus `api_token` and `wearable_token`. `setup.py` writes the file with your system's default permissions, which usually let every account on the machine read it. On the machine running stroketracker:
 
 ```bash
 chmod 600 config.json
@@ -429,7 +429,7 @@ Paste the output over the old value in `config.json`, restart the app, and put t
 
 **Keep `debug` false.** In debug mode, an error page carries Flask's interactive debugger, a Python console on your Pi guarded only by a PIN printed to the terminal. It's a tool for your own desk, not for a reachable server.
 
-**Listen only where you need to.** `app.py` binds every network interface by default. Once the app is remote, that lets anyone on your WiFi reach Flask without passing Cloudflare Access or nginx. Bind to `127.0.0.1` for Option A or the Pi's Tailscale IP for Option B; see [Option A, Step 1](#step-1-get-sardinetracker-running-on-the-pi) and [Option B, Step 6](#step-6-start-sardinetracker-on-the-pi-listening-on-tailscales-interface).
+**Listen only where you need to.** `app.py` binds every network interface by default. Once the app is remote, that lets anyone on your WiFi reach Flask without passing Cloudflare Access or nginx. Bind to `127.0.0.1` for Option A or the Pi's Tailscale IP for Option B; see [Option A, Step 1](#step-1-get-stroketracker-running-on-the-pi) and [Option B, Step 6](#step-6-start-stroketracker-on-the-pi-listening-on-tailscales-interface).
 
 **Leave registration off.** `/register` only works while `registration_invite_code` is set in `config.json`. On a reachable server, set it just long enough for someone to sign up, then remove it and restart. The invite code is all that stands between a stranger and a new account.
 
@@ -456,7 +456,7 @@ Each client also gets only the permits it needs, and only the accounts it may ac
 | `uv_ingest` | `POST /api/uv/ingest`: UV wearable readings |
 | `backup` | backup export and restore, in `single_user_mode` only |
 
-**Set one up.** On the machine running sardinetracker:
+**Set one up.** On the machine running stroketracker:
 
 ```bash
 python api_clients.py new sardinessync health_sync flare_status --user 1
@@ -558,11 +558,11 @@ Done. You're local only again either way.
 
 ## Auto-Sync from Apple Health
 
-You don't have to type biometrics in by hand. Each phone platform has a companion app that reads your health data and sends it to your sardinetracker instance.
+You don't have to type biometrics in by hand. Each phone platform has a companion app that reads your health data and sends it to your stroketracker instance.
 
 ### iPhone: sardinessync
 
-**[sardinessync](https://github.com/alaricmoore/sardinessync)** is a native SwiftUI companion app that reads HealthKit on your iPhone, computes RMSSD on-device from raw RR intervals, and POSTs the result to your sardinetracker instance. It's in its own repo because the iOS code and the Flask code evolve on different cadences.
+**[sardinessync](https://github.com/alaricmoore/sardinessync)** is a native SwiftUI companion app that reads HealthKit on your iPhone, computes RMSSD on-device from raw RR intervals, and POSTs the result to your stroketracker instance. It's in its own repo because the iOS code and the Flask code evolve on different cadences.
 
 **Why this and not the App Store?** It's not in the App Store. I don't pay Apple $99 a year to list a tool that runs on my own server, talks only to my own server, and has one user. You build it yourself.
 
@@ -572,7 +572,7 @@ You don't have to type biometrics in by hand. Each phone platform has a companio
 
 **What it syncs:** steps, HRV (SDNN), RMSSD, resting heart rate, respiratory rate, SpO2, basal body temperature, and time in daylight. RMSSD needs raw beat-to-beat (RR) intervals, which the app reads from HealthKit and turns into RMSSD on the phone over an overnight window (10pm-8am).
 
-The build and first-run steps live in the [sardinessync README](https://github.com/alaricmoore/sardinessync), for both Xcode and xtool. You'll need two things from this server: the sync URL (`https://your-sardinetracker-instance/api/health-sync`) and the `api_token` from your `config.json`. When a sync works, the app reports something like `synced 9 fields: steps, hrv, ...`.
+The build and first-run steps live in the [sardinessync README](https://github.com/alaricmoore/sardinessync), for both Xcode and xtool. You'll need two things from this server: the sync URL (`https://your-stroketracker-instance/api/health-sync`) and the `api_token` from your `config.json`. When a sync works, the app reports something like `synced 9 fields: steps, hrv, ...`.
 
 It then runs automatically in the background overnight. Flare alerts and medication dose reminders arrive as local push notifications.
 

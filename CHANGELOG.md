@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 > **Note:** I forgot this file existed for over a month. Entries from 2.2.0 onward were reconstructed from git history on 2026-04-26, so dates reflect when work landed but groupings are post-hoc.
 
+[2.11.0] — 2026-10-20
+Added
+- **Morning/evening fatigue tracking.** Fatigue is now logged twice daily (0–10, morning and evening) alongside the overall rating. Blank means not logged, so 0 stays a real answer. Both readings appear on the daily entry, the mobile quick log, the confirmation screen, the clinician portal (per-period am/pm means and per-flare readings), the flare-context digest and the CSV export; the model scores the worst reading logged (`effective_fatigue` in `flaremodel.py`), so legacy single-value rows and imports behave exactly as before.
+- **9am recurring fatigue reminder.** A daily ntfy nudge at 09:00 (`fatigue_reminder_hour` in `config.json`, default 9) prompts the morning reading while it's fresh — timed to land alongside the morning medication dose reminders. Skips anyone who has already logged a morning reading today; rate-limited to one reminder per calendar day per user (`last_fatigue_reminder_date`).
+- **Quick note button (nav).** A standalone `note` button between today and forecast opens a popup — text box, date + time pickers to the right, save — that appends a `[HH:MM]`-stamped entry to the chosen day's notes log. Existing entries are preserved and the day's other fields are untouched.
+- **Stressors log (replaces 'uv lag' in the nav).** `/stress` logs timestamped stressor entries the same way, into its own `stressors` field; days display newest-first. Included in the CSV export.
+- **Medication log (replaces 'reactions' in the nav).** `/medlog` shows upcoming consumption times (next 7 days), schedules recurring dose times per medication (one dose per day, up to 30 days ahead), and carries the reminder on/off control — turning reminders off stops the notifications only; doses still list on the daily entry.
+- **Rebrand: sardine tracker → stroke tracker.** Every user-facing surface now says stroketracker — wordmark, page titles, startup banner, man page, docs, site build. Deliberately unchanged: `sardinetracker.com` links (the upstream lupus project), `sardinesync` companion-app references, `SARDINE_*` env vars, the `sardine-tracker` stored value in `column_provenance`, and this file's history.
+
+
 [2.10.0] — 2026-09-07
 Documentation
 - **Cloudflare Access section in `REMOTE_ACCESS.md` rewritten.** The old version said to put Access on the hostname and stopped there. Following it breaks two of the three kinds of traffic the app serves: clinician portal links (`/portal/*`, authenticated by the token in the URL) and device sync (`/api/*`, authenticated by a bearer token). Both fail silently. The section now covers the three-lane topology, Zero Trust onboarding, an open-lane application carrying both bypass paths under one policy, the hostname gate, Independent MFA, and a cold-client verification table.

@@ -128,6 +128,8 @@ def daily_entry_submit():
         "sun_exposure_min": get_float("sun_exposure_min"),
         "pain_scale": get_float("pain_scale"),
         "fatigue_scale": get_float("fatigue_scale"),
+        "fatigue_morning": get_float("fatigue_morning"),
+        "fatigue_evening": get_float("fatigue_evening"),
         "emotional_state": get_float("emotional_state"),
         "emotional_notes": form.get("emotional_notes", "").strip() or None,
         "neurological": get_bool("neurological"),
@@ -195,6 +197,95 @@ def daily_confirm(entry_date):
 
 
 # ============================================================
+# Quick note (nav button) + stressors log
+# ============================================================
+
+def _append_log_entry(user_id: int, date_str: str, time_str: str, text: str,
+                      field: str) -> tuple:
+    """Shared quick-log append: '[HH:MM] text' onto the chosen day's log
+    field ('notes' or 'stressors'), preserving what is already there.
+    Returns (error, entry)."""
+    text = (text or "").strip()
+    if not text:
+        return "Nothing to save — the entry is empty.", None
+    try:
+        datetime.strptime(date_str, "%Y-%m-%d")
+    except ValueError:
+        return "Date must be YYYY-MM-DD.", None
+    try:
+        datetime.strptime(time_str, "%H:%M")
+    except ValueError:
+        return "Time must be HH:MM.", None
+
+    existing = db.get_daily_observations(user_id, date_str) or {}
+    prev = (existing.get(field) or "").strip()
+    entry = f"[{time_str}] {text}"
+    merged = f"{prev}\n{entry}" if prev else entry
+    db.upsert_daily_observations(user_id, {"date": date_str, field: merged})
+    return None, entry
+
+
+@app.route("/note/quick", methods=["POST"])
+def note_quick():
+    """Nav note button: append a timestamped entry to the chosen day's notes."""
+    payload = request.get_json(force=True, silent=True) or request.form
+    date_str = (payload.get("date") or date.today().isoformat()).strip()
+    time_str = (payload.get("time") or datetime.now().strftime("%H:%M")).strip()
+    error, entry = _append_log_entry(uid(), date_str, time_str, payload.get("text"), "notes")
+    if error:
+        return jsonify({"ok": False, "error": error}), 400
+    return jsonify({"ok": True, "date": date_str, "entry": entry})
+
+
+def _parse_log_entries(log: str) -> list:
+    """Split a stored log field into [{'time', 'text'}] entries."""
+    entries = []
+    for line in (log or "").split("\n"):
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith("[") and "]" in line:
+            t, rest = line[1:].split("]", 1)
+            entries.append({"time": t.strip(), "text": rest.strip()})
+        else:
+            entries.append({"time": None, "text": line})
+    return entries
+
+
+@app.route("/stress", methods=["GET"])
+def stress_log():
+    """Stressors log: timestamped entries, newest day first."""
+    all_obs = db.get_all_daily_observations(uid()) or []
+    days = []
+    for obs in reversed(all_obs):  # date DESC
+        log = (obs.get("stressors") or "").strip()
+        if not log:
+            continue
+        days.append({"date": obs["date"], "entries": _parse_log_entries(log)})
+    days = days[:60]  # newest first, capped
+    now = datetime.now()
+    return render_template(
+        "stress_log.html",
+        days=days,
+        today=now.strftime("%Y-%m-%d"),
+        now_time=now.strftime("%H:%M"),
+        error=request.args.get("error"),
+    )
+
+
+@app.route("/stress/quick", methods=["POST"])
+def stress_quick():
+    """Stressors log: append a timestamped entry to the chosen day."""
+    form = request.form
+    date_str = (form.get("date") or date.today().isoformat()).strip()
+    time_str = (form.get("time") or datetime.now().strftime("%H:%M")).strip()
+    error, _ = _append_log_entry(uid(), date_str, time_str, form.get("text"), "stressors")
+    if error:
+        return redirect(url_for("stress_log", error=error))
+    return redirect(url_for("stress_log"))
+
+
+# ============================================================
 # Mobile Quick Log & Status
 # ============================================================
 
@@ -239,7 +330,7 @@ def mobile_log():
             data[sym] = get_bool(sym)
 
         # Pain + fatigue
-        for field in ("pain_scale", "fatigue_scale"):
+        for field in ("pain_scale", "fatigue_scale", "fatigue_morning", "fatigue_evening"):
             val = get_float(field)
             if val is not None:
                 data[field] = val

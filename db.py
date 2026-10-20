@@ -420,7 +420,8 @@ def get_users_with_ntfy() -> list[dict]:
                    p.ntfy_topic, p.ntfy_server, p.location_lat, p.location_lon,
                    p.timezone, p.last_flare_alert_date, p.last_uv_alert_date,
                    p.reminder_hours, p.last_logged_at, p.last_reminder_date,
-                   p.last_period_nudge_date, p.track_cycle
+                   p.last_period_nudge_date, p.track_cycle,
+                   p.last_fatigue_reminder_date
             FROM users u
             {join} user_preferences p ON u.id = p.user_id
             {where}
@@ -507,6 +508,7 @@ def upsert_daily_observations(user_id: int, data: dict) -> bool:
         "date", "steps", "hours_slept", "hrv", "hrv_rmssd", "resting_heart_rate",
         "spo2", "respiratory_rate", "basal_temp_delta",
         "sun_exposure_min", "pain_scale", "fatigue_scale",
+        "fatigue_morning", "fatigue_evening",
         "emotional_state", "emotional_notes",
         "neurological", "neuro_notes",
         "cognitive", "cognitive_notes",
@@ -519,6 +521,7 @@ def upsert_daily_observations(user_id: int, data: dict) -> bool:
         "gastro", "gastro_notes",
         "strike_physical", "strike_environmental", "flare_occurred",
         "notes",
+        "stressors",
         "period_flow", "cramping", "cycle_notes",
         "stayed_indoors", "uv_protection_level",
         "flare_severity",
@@ -1477,6 +1480,7 @@ def get_all_pending_doses_with_ntfy(window_start: str, window_end: str) -> list:
                  AND sd.scheduled_datetime < ?
                  AND sd.notified = 0
                  AND sd.taken = 0
+                 AND (up.med_reminders_enabled IS NULL OR up.med_reminders_enabled != 0)
                ORDER BY sd.scheduled_datetime""",
             (window_start, window_end)
         ).fetchall()

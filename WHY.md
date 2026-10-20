@@ -1,4 +1,4 @@
-# sardinetracker — the story
+# stroketracker — the story
 
 ## Why This Exists
 

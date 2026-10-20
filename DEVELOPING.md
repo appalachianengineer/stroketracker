@@ -1,4 +1,4 @@
-# Developing sardinetracker
+# Developing stroketracker
 
 For people reading or changing the code. If you want to contribute, read [CONTRIBUTING.md](CONTRIBUTING.md) first; this file is the map.
 
@@ -102,7 +102,7 @@ The server answers **401**, always with the same body, for a missing or malforme
 ## Project structure
 
 ```
-sardinetracker/
+stroketracker/
 ├── app.py                      # Entry point: assembles the app from the modules below and runs it
 ├── appcore.py                  # The Flask app itself: config, migrations hook, secret key, CSRF, login
 ├── flaremodel.py               # Shared flare-scoring layer: weights, multi-day context, cycle detection
@@ -138,7 +138,7 @@ sardinetracker/
 ├── severity_diagnostic.py      # One-off analysis: keyword severity buckets from symptom notes
 ├── severity_vocab.py           # Severity vocabulary for parsing free-text symptom notes
 ├── rmssd_flare_rerun.py        # Standalone RMSSD pre-flare pattern analysis (generates PNG)
-├── make-manpage.py             # Renders TROUBLESHOOTING.md as the sardinetracker(7) man page
+├── make-manpage.py             # Renders TROUBLESHOOTING.md as the stroketracker(7) man page
 ├── README.md                   # This file
 ├── WHY.md                      # The story behind the project
 ├── MODEL.md                    # Full flare prediction model documentation (rendered at /model/docs)
@@ -159,7 +159,7 @@ sardinetracker/
 │   ├── custom_weights.json     # Forecast Lab overrides (gitignored; per-user fallback)
 │   └── flare_alert_state.json  # Daily alert rate-limit state (gitignored)
 ├── backups/                    # Local DB backup snapshots (gitignored)
-├── man/sardinetracker.7        # Generated man page
+├── man/stroketracker.7        # Generated man page
 ├── site/                       # sardinetracker.com landing page; build-docs.py renders the docs
 ├── tests/                      # pytest suite
 └── templates/

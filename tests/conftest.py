@@ -41,7 +41,7 @@ def _build_database():
 
 
 def pytest_configure(config):
-    work = Path(tempfile.mkdtemp(prefix="sardinetracker-tests-"))
+    work = Path(tempfile.mkdtemp(prefix="stroketracker-tests-"))
     _run.update(cwd=os.getcwd(), work=work, data_dir=os.environ.get("SARDINE_DATA_DIR"))
     os.chdir(work)
     os.environ["SARDINE_DATA_DIR"] = str(work)   # before db or appcore is imported

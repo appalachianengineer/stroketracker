@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Importing your data &#8212; sardinetracker</title>
+<title>Importing your data &#8212; stroketracker</title>
 <meta name="description" content="Bringing in history you already have: Apple Health exports, cycle data, a spreadsheet tracker, lab results, and backfilled UV.">
 <link rel="canonical" href="https://sardinetracker.com/docs/importing">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -11,8 +11,8 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sardinetracker.com/docs/importing">
-<meta property="og:site_name" content="sardinetracker">
-<meta property="og:title" content="Importing your data &#8212; sardinetracker">
+<meta property="og:site_name" content="stroketracker">
+<meta property="og:title" content="Importing your data &#8212; stroketracker">
 <meta property="og:description" content="Bringing in history you already have: Apple Health exports, cycle data, a spreadsheet tracker, lab results, and backfilled UV.">
 <meta property="og:image" content="https://sardinetracker.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,8 +110,8 @@
 <body>
 <header>
   <div class="wrap nav">
-    <div class="wordmark"><a href="/" style="color:inherit">sardine<span>tracker</span></a></div>
-    <ul><li><a href="/docs/remote-access">remote access</a></li><li><a href="/docs/troubleshooting">troubleshooting</a></li><li><a href="/docs/help">help</a></li><li><a href="/docs/features">features</a></li><li><a class="here" href="/docs/importing">importing</a></li><li><a href="https://github.com/alaricmoore/sardinetracker">github &#8599;</a></li></ul>
+    <div class="wordmark"><a href="/" style="color:inherit">stroke<span>tracker</span></a></div>
+    <ul><li><a href="/docs/remote-access">remote access</a></li><li><a href="/docs/troubleshooting">troubleshooting</a></li><li><a href="/docs/help">help</a></li><li><a href="/docs/features">features</a></li><li><a class="here" href="/docs/importing">importing</a></li><li><a href="https://github.com/alaricmoore/stroketracker">github &#8599;</a></li></ul>
   </div>
 </header>
 <main>
@@ -122,9 +122,9 @@
   </div>
   <div class="wrap layout">
     <nav class="toc" aria-label="On this page"><span class="lbl">On this page</span><ul><li><a href="#from-apple-health">From Apple Health</a></li><li><a href="#from-apple-health--menstrual-cycle-data">From Apple Health — Menstrual Cycle Data</a></li><li><a href="#from-your-own-symptom-tracker">From Your Own Symptom Tracker</a></li><li><a href="#lab-results">Lab Results</a></li><li><a href="#uv-data-backfill">UV Data Backfill</a></li></ul></nav>
-    <article class="prose"><p>Already tracking somewhere else? These scripts bring it in. Each one takes <code>--dry-run</code>, so you can see what it would do before it writes anything. Run them from the sardinetracker folder with your virtual environment active (see the <a href="https://github.com/alaricmoore/sardinetracker/blob/main/README.md">README</a>).</p>
+    <article class="prose"><p>Already tracking somewhere else? These scripts bring it in. Each one takes <code>--dry-run</code>, so you can see what it would do before it writes anything. Run them from the stroketracker folder with your virtual environment active (see the <a href="https://github.com/alaricmoore/stroketracker/blob/main/README.md">README</a>).</p>
 <h2 id="from-apple-health">From Apple Health</h2>
-<p>Sardinetracker can import HRV, sleep hours, wrist temperature, and daylight exposure from Apple Health, or whatever else you are tracking. Which provides free-of-cost raw data downloads.</p>
+<p>Stroketracker can import HRV, sleep hours, wrist temperature, and daylight exposure from Apple Health, or whatever else you are tracking. Which provides free-of-cost raw data downloads.</p>
 <p><strong>Export from Apple Health:</strong></p>
 <ol>
 <li>Open the Health app on your iPhone</li>
@@ -195,9 +195,9 @@ python import_labs.py path/to/labs.csv
   <div class="wrap">
     <div class="links">
       <a href="/">sardinetracker.com</a>
-      <a href="https://github.com/alaricmoore/sardinetracker">source &#8599;</a>
-      <a href="https://github.com/alaricmoore/sardinetracker/blob/main/MODEL.md">how the model works &#8599;</a>
-      <a href="https://github.com/alaricmoore/sardinetracker/blob/main/LICENSE">AGPL-3.0 &#8599;</a>
+      <a href="https://github.com/alaricmoore/stroketracker">source &#8599;</a>
+      <a href="https://github.com/alaricmoore/stroketracker/blob/main/MODEL.md">how the model works &#8599;</a>
+      <a href="https://github.com/alaricmoore/stroketracker/blob/main/LICENSE">AGPL-3.0 &#8599;</a>
     </div>
     <p>A one-person project, built between doctor appointments, machine repair, and terrariums.
        Not medical advice; always consult qualified clinicians. Trust your observations.

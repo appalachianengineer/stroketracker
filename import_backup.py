@@ -338,7 +338,7 @@ def run_import(db_path: str, user_id: int, dry_run: bool = False,
     # Detect schema type
     is_multiuser = _has_column(backup_conn, "daily_observations", "user_id")
 
-    print(f"sardinetracker backup import")
+    print(f"stroketracker backup import")
     print(f"==========================")
     print(f"Backup:   {db_path}")
     print(f"Schema:   {'multi-user' if is_multiuser else 'single-user (legacy)'}")
@@ -396,7 +396,7 @@ def run_import(db_path: str, user_id: int, dry_run: bool = False,
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Import data from a sardinetracker database backup"
+        description="Import data from a stroketracker database backup"
     )
     parser.add_argument("db_file", help="Path to backup .db file")
     parser.add_argument("--dry-run", action="store_true",

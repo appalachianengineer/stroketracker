@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ entry_date }} — sardinetracker{% endblock %}
+{% block title %}{{ entry_date }} — stroketracker{% endblock %}
 
 {% block content %}
 <div class="page-header">
@@ -493,7 +493,7 @@
         </div>
 
         <div class="form-group">
-            <label>fatigue <span style="color:var(--text-muted)">(0 = wired, 10 = comatose)</span></label>
+            <label>fatigue — overall <span style="color:var(--text-muted)">(0 = wired, 10 = comatose)</span></label>
             <div class="range-row">
                 <input type="range" name="fatigue_scale" min="0" max="10" step="0.5"
                     value="{{ existing.fatigue_scale if existing and existing.fatigue_scale is not none else 0 }}"
@@ -502,6 +502,20 @@
                     {{ existing.fatigue_scale if existing and existing.fatigue_scale is not none else 0 }}
                 </span>
             </div>
+        </div>
+
+        <div class="form-group">
+            <label>fatigue — morning <span style="color:var(--text-muted)">(0 = rested, 10 = can't function; log at the 9am reminder)</span></label>
+            <input type="number" name="fatigue_morning" min="0" max="10" step="0.5"
+                value="{{ existing.fatigue_morning if existing and existing.fatigue_morning is not none else '' }}"
+                placeholder="not logged">
+        </div>
+
+        <div class="form-group">
+            <label>fatigue — evening <span style="color:var(--text-muted)">(0 = rested, 10 = can't function)</span></label>
+            <input type="number" name="fatigue_evening" min="0" max="10" step="0.5"
+                value="{{ existing.fatigue_evening if existing and existing.fatigue_evening is not none else '' }}"
+                placeholder="not logged">
         </div>
 
         <div class="form-group">
@@ -579,7 +593,7 @@
 
     <!-- General notes -->
     {% if not quick_mode %}
-    <div class="card">
+    <div class="card" id="notes">
         <div class="card-title">notes</div>
         <textarea name="notes" placeholder="anything else worth recording…"
             style="min-height: 120px;"

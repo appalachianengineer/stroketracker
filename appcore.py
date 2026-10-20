@@ -75,6 +75,11 @@ def _auto_migrate():
         ("user_preferences", "last_period_nudge_date", "TEXT"),
         ("daily_observations", "flare_severity", "TEXT"),
         ("user_preferences", "steps_baseline", "INTEGER"),
+        ("daily_observations", "fatigue_morning", "REAL"),
+        ("daily_observations", "fatigue_evening", "REAL"),
+        ("user_preferences", "last_fatigue_reminder_date", "TEXT"),
+        ("daily_observations", "stressors", "TEXT"),
+        ("user_preferences", "med_reminders_enabled", "INTEGER DEFAULT 1"),
     ]
     for table, col, coltype in migrations:
         try:

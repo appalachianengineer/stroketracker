@@ -1,4 +1,4 @@
-# Features — everything sardinetracker does
+# Features — everything stroketracker does
 
 The full feature list, one area at a time. For installing, see the [README](README.md). For how to use each part day to day, see [help.md](help.md). For how the flare score is calculated, see [MODEL.md](MODEL.md).
 

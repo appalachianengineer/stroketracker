@@ -245,6 +245,20 @@ def _ladder(value):
     return None, 0
 
 
+def effective_fatigue(obs: dict):
+    """The day's fatigue for scoring and display.
+
+    Fatigue is logged as separate morning and evening readings (twice-daily
+    tracking), with the overall rating kept for older rows and imports.
+    Returns the worst reading that exists — the model scores the day's
+    worst symptom level — or None when nothing was logged at all.
+    """
+    readings = [v for v in (obs.get('fatigue_scale'),
+                            obs.get('fatigue_morning'),
+                            obs.get('fatigue_evening')) if v is not None]
+    return max(readings) if readings else None
+
+
 def _score_items(obs: dict, user_id: int | None = None,
                  weights: dict | None = None) -> list:
     """Every individual contribution to the flare prime score for one day.
@@ -362,7 +376,7 @@ def _score_items(obs: dict, user_id: int | None = None,
     # 5% non-flare), and low emotional state
     label, pts = _ladder(obs.get('pain_scale') or 0)
     add('pain_fatigue', f'{label} pain', pts * pf_w, '#c94040')
-    label, pts = _ladder(obs.get('fatigue_scale') or 0)
+    label, pts = _ladder(effective_fatigue(obs) or 0)
     add('pain_fatigue', f'{label} fatigue', pts * pf_w, '#d4a054')
     if (obs.get('emotional_state') or 5) <= 4:
         add('pain_fatigue', 'Low emotional state', 2 * pf_w, '#7a8499')

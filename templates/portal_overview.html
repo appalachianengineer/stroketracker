@@ -32,7 +32,7 @@
       {% if synopsis.mean_pain is not none or synopsis.mean_fatigue is not none %}
       <div class="stat">
         <div class="k">Mean burden</div>
-        <div class="v2">{% if synopsis.mean_pain is not none %}pain {{ synopsis.mean_pain }}{% endif %}{% if synopsis.mean_fatigue is not none %} · fatigue {{ synopsis.mean_fatigue }}{% endif %}</div>
+        <div class="v2">{% if synopsis.mean_pain is not none %}pain {{ synopsis.mean_pain }}{% endif %}{% if synopsis.mean_fatigue is not none %} · fatigue {{ synopsis.mean_fatigue }}{% endif %}{% if synopsis.mean_fatigue_morning is not none %} · fatigue am {{ synopsis.mean_fatigue_morning }}{% endif %}{% if synopsis.mean_fatigue_evening is not none %} · fatigue pm {{ synopsis.mean_fatigue_evening }}{% endif %}</div>
       </div>
       {% endif %}
     </div>

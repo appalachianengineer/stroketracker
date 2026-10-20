@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{% block title %}sardinetracker{% endblock %}</title>
+    <title>{% block title %}stroketracker{% endblock %}</title>
 
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
@@ -817,13 +817,15 @@
 
     <header class="app-header">
         <div class="header-inner">
-            <div class="app-wordmark">sardine<span>tracker</span></div>
+            <div class="app-wordmark">stroke<span>tracker</span></div>
             <nav>
                 <ul class="nav-links">
                     <li><a href="{{ url_for('daily_entry') }}"
                         {% if request.endpoint == 'daily_entry' %}class="active"{% endif %}>
                         today
                     </a></li>
+                    <li><button id="quickNoteBtn" class="nav-note-btn" type="button"
+                        title="add a timestamped note">note</button></li>
                     <li><a href="{{ url_for('forecast') }}"
                         {% if request.endpoint == 'forecast' %}class="active"{% endif %}>
                         forecast
@@ -838,17 +840,17 @@
                         {% if request.endpoint == 'timeline' %}class="active"{% endif %}>
                         model
                     </a></li>
-                    <li><a href="{{ url_for('uv_lag') }}"
-                        {% if request.endpoint == 'uv_lag' %}class="active"{% endif %}>
-                        uv lag
+                    <li><a href="{{ url_for('stress_log') }}"
+                        {% if request.endpoint == 'stress_log' %}class="active"{% endif %}>
+                        stress log
                     </a></li>
                     <li><a href="{{ url_for('wearable') }}"
                         {% if request.endpoint == 'wearable' %}class="active"{% endif %}>
                         wearable
                     </a></li>
-                    <li><a href="{{ url_for('hrv_view') }}"
-                        {% if request.endpoint == 'hrv_view' %}class="active"{% endif %}>
-                        reactions
+                    <li><a href="{{ url_for('medlog') }}"
+                        {% if request.endpoint == 'medlog' %}class="active"{% endif %}>
+                        medication log
                     </a></li>
                     <li><a href="{{ url_for('clinical_record') }}"
                         {% if request.endpoint == 'clinical_record' %}class="active"{% endif %}>
@@ -1053,6 +1055,100 @@ function updateToggleUI(theme) {
         options.headers = Object.assign({'X-CSRFToken': token}, options.headers || {});
         return fetch(url, options);
     };
+})();
+</script>
+
+<!-- Quick note button styling + modal (nav) -->
+<style>
+    .nav-links .nav-note-btn {
+        background: none; border: none; font: inherit;
+        font-size: 0.875rem; color: var(--text-secondary);
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: var(--radius-sm); cursor: pointer;
+        transition: color 0.15s, background 0.15s;
+    }
+    .nav-links .nav-note-btn:hover { color: var(--text-primary); background: var(--bg-elevated); }
+    .qn-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.45);
+                  display: flex; align-items: center; justify-content: center; }
+    .qn-overlay[hidden] { display: none; }
+    .qn-dialog { background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+                 border-radius: 12px; padding: var(--space-md); width: min(92vw, 560px); }
+    .qn-title { font-size: 1rem; font-weight: 600; margin-bottom: var(--space-sm); }
+    .qn-body { display: flex; gap: var(--space-sm); align-items: stretch; }
+    .qn-text { flex: 1; min-height: 110px; resize: vertical; }
+    .qn-side { display: flex; flex-direction: column; gap: var(--space-xs); width: 9.5rem; }
+    .qn-actions { display: flex; align-items: center; gap: var(--space-sm); margin-top: var(--space-sm); }
+    .qn-status { font-size: 0.75rem; color: var(--color-accent); margin-right: auto; }
+</style>
+<div id="quickNoteModal" class="qn-overlay" hidden>
+    <div class="qn-dialog" role="dialog" aria-label="Add a timestamped note">
+        <div class="qn-title">note</div>
+        <div class="qn-body">
+            <textarea id="qnText" class="qn-text" placeholder="what happened…"></textarea>
+            <div class="qn-side">
+                <label class="qn-label" for="qnDate">date</label>
+                <input type="date" id="qnDate">
+                <label class="qn-label" for="qnTime">time</label>
+                <input type="time" id="qnTime">
+            </div>
+        </div>
+        <div class="qn-actions">
+            <span id="qnStatus" class="qn-status"></span>
+            <button id="qnCancel" type="button" class="btn btn-secondary btn-sm">cancel</button>
+            <button id="qnSave" type="button" class="btn btn-primary btn-sm">save</button>
+        </div>
+    </div>
+</div>
+<script>
+(function () {
+    var btn = document.getElementById('quickNoteBtn');
+    var overlay = document.getElementById('quickNoteModal');
+    if (!btn || !overlay) return;
+    var textEl = document.getElementById('qnText');
+    var dateEl = document.getElementById('qnDate');
+    var timeEl = document.getElementById('qnTime');
+    var statusEl = document.getElementById('qnStatus');
+    var saveBtn = document.getElementById('qnSave');
+    var cancelBtn = document.getElementById('qnCancel');
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function open() {
+        var now = new Date();
+        dateEl.value = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+        timeEl.value = pad(now.getHours()) + ':' + pad(now.getMinutes());
+        statusEl.textContent = '';
+        overlay.hidden = false;
+        textEl.focus();
+    }
+    function close() { overlay.hidden = true; }
+
+    btn.addEventListener('click', open);
+    cancelBtn.addEventListener('click', close);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !overlay.hidden) close();
+    });
+
+    saveBtn.addEventListener('click', function () {
+        saveBtn.disabled = true;
+        window.csrfFetch('/note/quick', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ date: dateEl.value, time: timeEl.value, text: textEl.value })
+        }).then(function (r) { return r.json(); }).then(function (data) {
+            saveBtn.disabled = false;
+            if (!data.ok) { statusEl.textContent = data.error || 'Could not save.'; return; }
+            statusEl.textContent = 'saved ✓';
+            textEl.value = '';
+            btn.textContent = 'note ✓';
+            setTimeout(function () { close(); statusEl.textContent = ''; }, 700);
+            setTimeout(function () { btn.textContent = 'note'; }, 2500);
+        }).catch(function () {
+            saveBtn.disabled = false;
+            statusEl.textContent = 'Could not save.';
+        });
+    });
 })();
 </script>
 

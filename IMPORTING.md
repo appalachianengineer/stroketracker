@@ -1,10 +1,10 @@
-# Importing your data — sardinetracker
+# Importing your data — stroketracker
 
-Already tracking somewhere else? These scripts bring it in. Each one takes `--dry-run`, so you can see what it would do before it writes anything. Run them from the sardinetracker folder with your virtual environment active (see the [README](README.md)).
+Already tracking somewhere else? These scripts bring it in. Each one takes `--dry-run`, so you can see what it would do before it writes anything. Run them from the stroketracker folder with your virtual environment active (see the [README](README.md)).
 
 ## From Apple Health
 
-Sardinetracker can import HRV, sleep hours, wrist temperature, and daylight exposure from Apple Health, or whatever else you are tracking. Which provides free-of-cost raw data downloads.
+Stroketracker can import HRV, sleep hours, wrist temperature, and daylight exposure from Apple Health, or whatever else you are tracking. Which provides free-of-cost raw data downloads.
 
 **Export from Apple Health:**
 

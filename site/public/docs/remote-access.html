@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Remote access &#8212; sardinetracker</title>
+<title>Remote access &#8212; stroketracker</title>
 <meta name="description" content="Reaching your own instance from outside the house — a Cloudflare Tunnel or a Tailscale VPS, with the trade-offs of each spelled out.">
 <link rel="canonical" href="https://sardinetracker.com/docs/remote-access">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -11,8 +11,8 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sardinetracker.com/docs/remote-access">
-<meta property="og:site_name" content="sardinetracker">
-<meta property="og:title" content="Remote access &#8212; sardinetracker">
+<meta property="og:site_name" content="stroketracker">
+<meta property="og:title" content="Remote access &#8212; stroketracker">
 <meta property="og:description" content="Reaching your own instance from outside the house — a Cloudflare Tunnel or a Tailscale VPS, with the trade-offs of each spelled out.">
 <meta property="og:image" content="https://sardinetracker.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,8 +110,8 @@
 <body>
 <header>
   <div class="wrap nav">
-    <div class="wordmark"><a href="/" style="color:inherit">sardine<span>tracker</span></a></div>
-    <ul><li><a class="here" href="/docs/remote-access">remote access</a></li><li><a href="/docs/troubleshooting">troubleshooting</a></li><li><a href="/docs/help">help</a></li><li><a href="/docs/features">features</a></li><li><a href="/docs/importing">importing</a></li><li><a href="https://github.com/alaricmoore/sardinetracker">github &#8599;</a></li></ul>
+    <div class="wordmark"><a href="/" style="color:inherit">stroke<span>tracker</span></a></div>
+    <ul><li><a class="here" href="/docs/remote-access">remote access</a></li><li><a href="/docs/troubleshooting">troubleshooting</a></li><li><a href="/docs/help">help</a></li><li><a href="/docs/features">features</a></li><li><a href="/docs/importing">importing</a></li><li><a href="https://github.com/alaricmoore/stroketracker">github &#8599;</a></li></ul>
   </div>
 </header>
 <main>
@@ -121,13 +121,13 @@
     <p>Reaching your own instance from outside the house &#8212; a Cloudflare Tunnel or a Tailscale VPS, with the trade-offs of each spelled out.</p>
   </div>
   <div class="wrap layout">
-    <nav class="toc" aria-label="On this page"><span class="lbl">On this page</span><ul><li><a href="#read-this-first">Read This First</a></li><li><a href="#what-less-internet-means-and-doesnt-mean">What &quot;Less Internet&quot; Means and Doesn&#x27;t Mean</a></li><li><a href="#two-paths">Two Paths</a></li><li><a href="#option-a-cloudflare-tunnel">Option A: Cloudflare Tunnel</a></li><li class="h3"><a href="#how-it-works">How it works</a></li><li class="h3"><a href="#what-you-need">What you need</a></li><li class="h3"><a href="#step-1-get-sardinetracker-running-on-the-pi">Step 1: Get sardinetracker running on the Pi</a></li><li class="h3"><a href="#step-2-add-your-domain-to-cloudflare">Step 2: Add your domain to Cloudflare</a></li><li class="h3"><a href="#step-3-open-the-zero-trust-dashboard">Step 3: Open the Zero Trust dashboard</a></li><li class="h3"><a href="#step-4-create-a-tunnel">Step 4: Create a tunnel</a></li><li class="h3"><a href="#step-5-route-your-subdomain-to-the-tunnel">Step 5: Route your subdomain to the tunnel</a></li><li class="h3"><a href="#step-6-verify">Step 6: Verify</a></li><li class="h3"><a href="#optional-add-cloudflare-access-on-top">Optional: add Cloudflare Access on top</a></li><li class="h3"><a href="#sardinetracker-sees-cloudflare-ips-not-real-user-ips">Sardinetracker sees Cloudflare IPs, not real user IPs</a></li><li><a href="#option-b-tailscale--a-cloud-vps">Option B: Tailscale + a cloud VPS</a></li><li class="h3"><a href="#how-it-works-1">How it works</a></li><li class="h3"><a href="#what-you-need-1">What you need</a></li><li class="h3"><a href="#step-1-install-sardinetracker-on-the-raspberry-pi">Step 1: Install sardinetracker on the Raspberry Pi</a></li><li class="h3"><a href="#step-2-install-tailscale-on-the-raspberry-pi">Step 2: Install Tailscale on the Raspberry Pi</a></li><li class="h3"><a href="#step-3-provision-your-cloud-vps">Step 3: Provision your cloud VPS</a></li><li class="h3"><a href="#step-4-configure-the-vps-as-a-reverse-proxy">Step 4: Configure the VPS as a reverse proxy</a></li><li class="h3"><a href="#step-5-open-the-firewall-on-the-vps">Step 5: Open the firewall on the VPS</a></li><li class="h3"><a href="#step-6-start-sardinetracker-on-the-pi-listening-on-tailscales-interface">Step 6: Start sardinetracker on the Pi listening on Tailscale&#x27;s interface</a></li><li class="h3"><a href="#tailscale-funnel--a-third-option-briefly">Tailscale Funnel — a third option, briefly</a></li><li><a href="#security-notes--please-read-these-apply-to-both-options">Security Notes — Please Read These (apply to both options)</a></li><li class="h3"><a href="#use-a-strong-password-on-sardinetracker-itself">Use a strong password on sardinetracker itself</a></li><li class="h3"><a href="#harden-the-app-itself">Harden the app itself</a></li><li class="h3"><a href="#use-signed-requests-instead-of-a-shared-token">Use signed requests instead of a shared token</a></li><li class="h3"><a href="#add-another-auth-layer-if-you-can">Add another auth layer if you can</a></li><li class="h3"><a href="#https">HTTPS</a></li><li class="h3"><a href="#keep-software-updated">Keep software updated</a></li><li class="h3"><a href="#understand-your-tailscale-acls-option-b-only">Understand your Tailscale ACLs (Option B only)</a></li><li class="h3"><a href="#monitor">Monitor</a></li><li><a href="#on-starlink-specifically">On Starlink Specifically</a></li><li><a href="#you-can-always-go-back">You Can Always Go Back</a></li><li><a href="#auto-sync-from-apple-health">Auto-Sync from Apple Health</a></li><li class="h3"><a href="#iphone-sardinessync">iPhone: sardinessync</a></li><li class="h3"><a href="#android-sardinesync-android">Android: sardinesync-android</a></li><li class="h3"><a href="#credentials-for-the-apps">Credentials for the apps</a></li><li><a href="#final-note">Final Note</a></li></ul></nav>
+    <nav class="toc" aria-label="On this page"><span class="lbl">On this page</span><ul><li><a href="#read-this-first">Read This First</a></li><li><a href="#what-less-internet-means-and-doesnt-mean">What &quot;Less Internet&quot; Means and Doesn&#x27;t Mean</a></li><li><a href="#two-paths">Two Paths</a></li><li><a href="#option-a-cloudflare-tunnel">Option A: Cloudflare Tunnel</a></li><li class="h3"><a href="#how-it-works">How it works</a></li><li class="h3"><a href="#what-you-need">What you need</a></li><li class="h3"><a href="#step-1-get-stroketracker-running-on-the-pi">Step 1: Get stroketracker running on the Pi</a></li><li class="h3"><a href="#step-2-add-your-domain-to-cloudflare">Step 2: Add your domain to Cloudflare</a></li><li class="h3"><a href="#step-3-open-the-zero-trust-dashboard">Step 3: Open the Zero Trust dashboard</a></li><li class="h3"><a href="#step-4-create-a-tunnel">Step 4: Create a tunnel</a></li><li class="h3"><a href="#step-5-route-your-subdomain-to-the-tunnel">Step 5: Route your subdomain to the tunnel</a></li><li class="h3"><a href="#step-6-verify">Step 6: Verify</a></li><li class="h3"><a href="#optional-add-cloudflare-access-on-top">Optional: add Cloudflare Access on top</a></li><li class="h3"><a href="#stroketracker-sees-cloudflare-ips-not-real-user-ips">Stroketracker sees Cloudflare IPs, not real user IPs</a></li><li><a href="#option-b-tailscale--a-cloud-vps">Option B: Tailscale + a cloud VPS</a></li><li class="h3"><a href="#how-it-works-1">How it works</a></li><li class="h3"><a href="#what-you-need-1">What you need</a></li><li class="h3"><a href="#step-1-install-stroketracker-on-the-raspberry-pi">Step 1: Install stroketracker on the Raspberry Pi</a></li><li class="h3"><a href="#step-2-install-tailscale-on-the-raspberry-pi">Step 2: Install Tailscale on the Raspberry Pi</a></li><li class="h3"><a href="#step-3-provision-your-cloud-vps">Step 3: Provision your cloud VPS</a></li><li class="h3"><a href="#step-4-configure-the-vps-as-a-reverse-proxy">Step 4: Configure the VPS as a reverse proxy</a></li><li class="h3"><a href="#step-5-open-the-firewall-on-the-vps">Step 5: Open the firewall on the VPS</a></li><li class="h3"><a href="#step-6-start-stroketracker-on-the-pi-listening-on-tailscales-interface">Step 6: Start stroketracker on the Pi listening on Tailscale&#x27;s interface</a></li><li class="h3"><a href="#tailscale-funnel--a-third-option-briefly">Tailscale Funnel — a third option, briefly</a></li><li><a href="#security-notes--please-read-these-apply-to-both-options">Security Notes — Please Read These (apply to both options)</a></li><li class="h3"><a href="#use-a-strong-password-on-stroketracker-itself">Use a strong password on stroketracker itself</a></li><li class="h3"><a href="#harden-the-app-itself">Harden the app itself</a></li><li class="h3"><a href="#use-signed-requests-instead-of-a-shared-token">Use signed requests instead of a shared token</a></li><li class="h3"><a href="#add-another-auth-layer-if-you-can">Add another auth layer if you can</a></li><li class="h3"><a href="#https">HTTPS</a></li><li class="h3"><a href="#keep-software-updated">Keep software updated</a></li><li class="h3"><a href="#understand-your-tailscale-acls-option-b-only">Understand your Tailscale ACLs (Option B only)</a></li><li class="h3"><a href="#monitor">Monitor</a></li><li><a href="#on-starlink-specifically">On Starlink Specifically</a></li><li><a href="#you-can-always-go-back">You Can Always Go Back</a></li><li><a href="#auto-sync-from-apple-health">Auto-Sync from Apple Health</a></li><li class="h3"><a href="#iphone-sardinessync">iPhone: sardinessync</a></li><li class="h3"><a href="#android-sardinesync-android">Android: sardinesync-android</a></li><li class="h3"><a href="#credentials-for-the-apps">Credentials for the apps</a></li><li><a href="#final-note">Final Note</a></li></ul></nav>
     <article class="prose"><h2 id="read-this-first">Read This First</h2>
-<p>This document describes how to access sardinetracker from outside your local network — from your phone on cellular, from work, from anywhere.</p>
+<p>This document describes how to access stroketracker from outside your local network — from your phone on cellular, from work, from anywhere.</p>
 <p>Before you do any of this, understand what you are doing:</p>
 <p><strong>Anything connected to the internet is dangerous and insecure. The most secure place for your health data is in your own head with a tight lip. A faraday cage helps too.</strong></p>
-<p>The default sardinetracker setup runs on localhost. Nothing leaves your computer. Nobody can reach it but via physical access to that machine, <em>on</em> that machine, on <em>that</em> network. That is the safest possible configuration and it is sufficient for most people.</p>
-<p>This guide exists for people who understand the risk surface and want remote access anyway. If you are not comfortable with concepts like VPNs, reverse proxies, open ports, and what it means to expose a service to the internet, stop here. Use the local setup. It is genuinely good enough; for the gap between the doctor's waiting room or the ER for four hours and getting home to your own network, travel with a notebook. Seriously, it's great therapy and also provides notes for future-you when you want to log the whole thing in sardinetracker.</p>
+<p>The default stroketracker setup runs on localhost. Nothing leaves your computer. Nobody can reach it but via physical access to that machine, <em>on</em> that machine, on <em>that</em> network. That is the safest possible configuration and it is sufficient for most people.</p>
+<p>This guide exists for people who understand the risk surface and want remote access anyway. If you are not comfortable with concepts like VPNs, reverse proxies, open ports, and what it means to expose a service to the internet, stop here. Use the local setup. It is genuinely good enough; for the gap between the doctor's waiting room or the ER for four hours and getting home to your own network, travel with a notebook. Seriously, it's great therapy and also provides notes for future-you when you want to log the whole thing in stroketracker.</p>
 <p>If you proceed, you accept that you are responsible for the security of your own data. The author of this software is not responsible for data exposure resulting from network configuration choices you make.</p>
 <hr />
 <h2 id="what-less-internet-means-and-doesnt-mean">What &quot;Less Internet&quot; Means and Doesn't Mean</h2>
@@ -212,7 +212,7 @@ Cloudflare edge (terminates TLS, serves your custom domain)
         |
         | (encrypted tunnel established by cloudflared running on the Pi)
         |
-Raspberry Pi (your home network, running sardinetracker on localhost)
+Raspberry Pi (your home network, running stroketracker on localhost)
 </code></pre>
 <p>The Pi does not need a public IP. It does not need any router ports forwarded. A small daemon called <code>cloudflared</code> runs on the Pi and makes an <em>outbound</em> connection to Cloudflare's edge. When you visit <code>app.yourdomain.com</code>, Cloudflare routes the request down that tunnel to your Flask app on the Pi.</p>
 <p><strong>What &quot;terminates TLS&quot; means for your data.</strong> HTTPS protects the trip from your phone to Cloudflare, and the tunnel protects the trip from Cloudflare to the Pi, but in between, on Cloudflare's servers, each request and response is decrypted so Cloudflare can route it. Cloudflare can read what you view and type there, health data included. That's the trade for no open ports and a free certificate, and it's the same trade most websites make. For traffic that doesn't need the public internet at all, such as a script on your own laptop reading notes from the Pi, connect over Tailscale instead: it is encrypted from one of your devices to the other, with nothing in the middle that can read it.</p>
@@ -224,7 +224,7 @@ Raspberry Pi (your home network, running sardinetracker on localhost)
 <li>A free Cloudflare account</li>
 <li>Basic comfort with SSH and the Linux command line (<code>man -k</code> is your friend)</li>
 </ul>
-<h3 id="step-1-get-sardinetracker-running-on-the-pi">Step 1: Get sardinetracker running on the Pi</h3>
+<h3 id="step-1-get-stroketracker-running-on-the-pi">Step 1: Get stroketracker running on the Pi</h3>
 <p>Follow the standard installation instructions in the README. Verify it runs on <code>http://localhost:5000</code> from the Pi itself before touching any networking. If you don't have a keyboard or screen, install headless debian onto the pi and ssh into it. You don't need a UI for any of this.</p>
 <p>For this path, Flask should listen only on <code>127.0.0.1</code> (localhost). Out of the box it doesn't: <code>app.py</code> binds <code>0.0.0.0</code>, every network interface, so a phone on your WiFi can reach it. That also means anyone on your WiFi can reach Flask directly and skip everything you later put in front of it at Cloudflare. The tunnel runs on the Pi itself and reaches Flask through localhost, so it doesn't need the wider binding. In <code>app.py</code>, change:</p>
 <pre><code class="language-python">host=&quot;0.0.0.0&quot;,
@@ -264,9 +264,9 @@ sudo cloudflared service install &lt;YOUR_LONG_TOKEN&gt;
 </ul>
 <p>Save. Cloudflare automatically creates the DNS record. Within seconds, <code>https://app.yourdomain.com</code> should serve your Flask app — with a valid HTTPS certificate, terminated at Cloudflare's edge.</p>
 <h3 id="step-6-verify">Step 6: Verify</h3>
-<p>From your phone on cellular (not your home WiFi — that's the whole point), visit <code>https://app.yourdomain.com</code>. You should see the sardinetracker login page. Log in, poke around. If it works, you're done with the network side.</p>
+<p>From your phone on cellular (not your home WiFi — that's the whole point), visit <code>https://app.yourdomain.com</code>. You should see the stroketracker login page. Log in, poke around. If it works, you're done with the network side.</p>
 <h3 id="optional-add-cloudflare-access-on-top">Optional: add Cloudflare Access on top</h3>
-<p>Sardinetracker has its own login, but that's one password facing the open internet. <strong>Cloudflare Access</strong> adds a second gate at Cloudflare's edge, in front of the tunnel: visitors prove who they are before a request ever reaches the Pi. Your Flask login is untouched and still applies — Access sits in front of it.</p>
+<p>Stroketracker has its own login, but that's one password facing the open internet. <strong>Cloudflare Access</strong> adds a second gate at Cloudflare's edge, in front of the tunnel: visitors prove who they are before a request ever reaches the Pi. Your Flask login is untouched and still applies — Access sits in front of it.</p>
 <p>Access binds to a <em>hostname</em>, not to a server. Your tunnel already answers &quot;where does this traffic go&quot;, so there is no IP, port, or protocol to enter here. If a setup wizard asks you for those, you're in the flow for people who don't have a tunnel yet — back out of it.</p>
 <h4 id="read-this-first-three-kinds-of-traffic-share-one-hostname">Read this first: three kinds of traffic share one hostname</h4>
 <pre><code>                app.yourdomain.com  (Cloudflare edge)
@@ -363,7 +363,7 @@ curl -s -w '\nsync      %{http_code}\n' -X POST -H 'Content-Type: application/js
 </tr>
 <tr>
 <td><code>/portal/badtoken</code></td>
-<td><strong>403</strong> from sardinetracker</td>
+<td><strong>403</strong> from stroketracker</td>
 <td>bypass works; traffic reached the Pi</td>
 </tr>
 <tr>
@@ -373,16 +373,16 @@ curl -s -w '\nsync      %{http_code}\n' -X POST -H 'Content-Type: application/js
 </tr>
 </tbody>
 </table></div>
-<p>One quirk that looks like a failure and isn't: a <strong>GET</strong> on <code>/api/health-sync</code> redirects to <code>/login</code> rather than returning 401. That's sardinetracker's own <code>require_login</code>, which sees <code>request.endpoint</code> as <code>None</code> on a 405 method mismatch. The POST path — the one your phone and wearable actually use — returns clean JSON. Test with POST.</p>
+<p>One quirk that looks like a failure and isn't: a <strong>GET</strong> on <code>/api/health-sync</code> redirects to <code>/login</code> rather than returning 401. That's stroketracker's own <code>require_login</code>, which sees <code>request.endpoint</code> as <code>None</code> on a 405 method mismatch. The POST path — the one your phone and wearable actually use — returns clean JSON. Test with POST.</p>
 <p><strong>Three things curl cannot tell you.</strong> MFA fires <em>after</em> identity, behind the login — from the outside, a gate with MFA and a gate without it are byte-identical. That's the point of it, and it's also why you have to check these by hand:</p>
 <ul>
 <li>Click a real portal link and confirm the record still renders. A 403 on a bad token proves traffic reaches the Pi; only a live token proves the page still draws.</li>
-<li>Sign in from a private window. You should hit, in order: the Access login → your PIN or identity provider → <strong>an authenticator challenge</strong> → <em>then</em> the sardinetracker Flask login. If that third step doesn't appear and you land straight on the Flask login, MFA is configured but not enforcing — check the organization switch and the Authentication duration.</li>
+<li>Sign in from a private window. You should hit, in order: the Access login → your PIN or identity provider → <strong>an authenticator challenge</strong> → <em>then</em> the stroketracker Flask login. If that third step doesn't appear and you land straight on the Flask login, MFA is configured but not enforcing — check the organization switch and the Authentication duration.</li>
 <li>Confirm your phone actually completes a sync, rather than trusting the 401 above. The 401 proves Access let the request through to Flask; it doesn't prove your token is still right.</li>
 </ul>
 <p>Keep that table somewhere you can reach when the site <em>isn't</em> reachable. <a href="/docs/troubleshooting">troubleshooting</a> has it alongside symptom-by-symptom triage for the rest of the stack — tunnel, Tailscale, backups, and the portal and API lanes.</p>
-<h3 id="sardinetracker-sees-cloudflare-ips-not-real-user-ips">Sardinetracker sees Cloudflare IPs, not real user IPs</h3>
-<p>Behind a Cloudflare tunnel, <code>request.remote_addr</code> in Flask is a Cloudflare edge IP, not the actual visitor's IP. If you need the real client IP (for logging, rate limiting, etc.), Cloudflare passes it in the <code>CF-Connecting-IP</code> header. Flask doesn't read it by default; for sardinetracker's purposes (a personal app with login) you likely don't need to bother.</p>
+<h3 id="stroketracker-sees-cloudflare-ips-not-real-user-ips">Stroketracker sees Cloudflare IPs, not real user IPs</h3>
+<p>Behind a Cloudflare tunnel, <code>request.remote_addr</code> in Flask is a Cloudflare edge IP, not the actual visitor's IP. If you need the real client IP (for logging, rate limiting, etc.), Cloudflare passes it in the <code>CF-Connecting-IP</code> header. Flask doesn't read it by default; for stroketracker's purposes (a personal app with login) you likely don't need to bother.</p>
 <hr />
 <h2 id="option-b-tailscale--a-cloud-vps">Option B: Tailscale + a cloud VPS</h2>
 <p>This is the original setup. It works without owning a domain (you can use the VPS's raw IP), at the cost of needing a small cloud server somewhere.</p>
@@ -395,11 +395,11 @@ Cloud VPS (public IP, runs nginx as reverse proxy, runs Tailscale)
         |
         | (Tailscale encrypted tunnel)
         |
-Raspberry Pi (your home network, runs Tailscale + sardinetracker)
+Raspberry Pi (your home network, runs Tailscale + stroketracker)
         |
         | (localhost)
         |
-sardinetracker app + SQLite database
+stroketracker app + SQLite database
 </code></pre>
 <p>Your database never leaves the Raspberry Pi, but what you view and send does pass through the VPS in readable form. Your phone connects to the VPS's public IP over HTTPS; nginx on the VPS ends that HTTPS connection, then forwards each request to the Pi over the encrypted Tailscale tunnel. The VPS provider's network only carries encrypted traffic, but anyone with access to the VM itself (you, or the provider) could read what passes through nginx.</p>
 <h3 id="what-you-need-1">What you need</h3>
@@ -411,7 +411,7 @@ sardinetracker app + SQLite database
 <li>Basic comfort with SSH and the Linux command line</li>
 <li>Starlink or any ISP — this setup works without a static public IP at home, which is the point</li>
 </ul>
-<h3 id="step-1-install-sardinetracker-on-the-raspberry-pi">Step 1: Install sardinetracker on the Raspberry Pi</h3>
+<h3 id="step-1-install-stroketracker-on-the-raspberry-pi">Step 1: Install stroketracker on the Raspberry Pi</h3>
 <p>Same as Option A — get it running on <code>http://localhost:5000</code> first. For this path, you'll need to change the bind address in step 6 below.</p>
 <h3 id="step-2-install-tailscale-on-the-raspberry-pi">Step 2: Install Tailscale on the Raspberry Pi</h3>
 <pre><code class="language-bash">curl -fsSL https://tailscale.com/install.sh | sh
@@ -429,13 +429,13 @@ sudo tailscale up
 <p>Install nginx on the VPS:</p>
 <pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt install nginx -y
 </code></pre>
-<p>Create a config at <code>/etc/nginx/sites-available/sardinetracker</code>:</p>
+<p>Create a config at <code>/etc/nginx/sites-available/stroketracker</code>:</p>
 <pre><code class="language-nginx">server {
     listen 80;
     server_name YOUR_VPS_PUBLIC_IP;
 
     # Basic auth is strongly recommended — see security notes below
-    # auth_basic &quot;sardinetracker&quot;;
+    # auth_basic &quot;stroketracker&quot;;
     # auth_basic_user_file /etc/nginx/.htpasswd;
 
     location / {
@@ -447,7 +447,7 @@ sudo tailscale up
 </code></pre>
 <p>Replace <code>YOUR_VPS_PUBLIC_IP</code> and <code>YOUR_PI_TAILSCALE_IP</code> with the actual values.</p>
 <p>Enable the config:</p>
-<pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/sardinetracker /etc/nginx/sites-enabled/
+<pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/stroketracker /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 </code></pre>
@@ -458,7 +458,7 @@ sudo ufw allow 443
 sudo ufw enable
 </code></pre>
 <p>If your provider has a separate cloud-level firewall (Oracle did, AWS does), open those ports in their console too.</p>
-<h3 id="step-6-start-sardinetracker-on-the-pi-listening-on-tailscales-interface">Step 6: Start sardinetracker on the Pi listening on Tailscale's interface</h3>
+<h3 id="step-6-start-stroketracker-on-the-pi-listening-on-tailscales-interface">Step 6: Start stroketracker on the Pi listening on Tailscale's interface</h3>
 <p>Out of the box, <code>app.py</code> binds <code>0.0.0.0</code>, every network interface, so traffic arriving from the VPS over Tailscale already reaches it. So does traffic from anyone on your home WiFi, who skips nginx and its basic auth entirely. Bind to the Pi's Tailscale address instead, so only your tailnet can reach Flask. Find it with <code>tailscale ip -4</code> on the Pi, then in <code>app.py</code> change:</p>
 <pre><code class="language-python">host=&quot;0.0.0.0&quot;,
 </code></pre>
@@ -468,7 +468,7 @@ sudo ufw enable
 <p>Restart the app. You should now be able to reach it from your VPS's public IP. And if you dig around the Tailscale options you can even give your Pi a nifty easy-remember-name. If the app starts before Tailscale is up (at boot, say), it fails with &quot;Cannot assign requested address&quot;; start it after <code>tailscaled</code> (in a systemd unit, <code>After=tailscaled.service</code>). And if you dig around the Tailscale options you can even give your Pi a nifty easy-remember-name.</p>
 <p><strong>Keep it running:</strong>
 Use systemd, screen, or tmux so the app doesn't die when you close SSH:</p>
-<pre><code class="language-bash">screen -S sardinetracker
+<pre><code class="language-bash">screen -S stroketracker
 python3 app.py
 # Ctrl+A, D to detach
 </code></pre>
@@ -477,11 +477,11 @@ python3 app.py
 <p>It's a reasonable middle ground if you want to skip the VPS but don't want Cloudflare in the loop. Setup is essentially: <code>tailscale funnel 5000</code> on the Pi. Their docs cover it well.</p>
 <hr />
 <h2 id="security-notes--please-read-these-apply-to-both-options">Security Notes — Please Read These (apply to both options)</h2>
-<h3 id="use-a-strong-password-on-sardinetracker-itself">Use a strong password on sardinetracker itself</h3>
-<p>Whichever path you choose, sardinetracker's own login is the last line of defense. Use a real password — long, unique, not your email password, not your phone PIN.</p>
+<h3 id="use-a-strong-password-on-stroketracker-itself">Use a strong password on stroketracker itself</h3>
+<p>Whichever path you choose, stroketracker's own login is the last line of defense. Use a real password — long, unique, not your email password, not your phone PIN.</p>
 <h3 id="harden-the-app-itself">Harden the app itself</h3>
 <p>Everything here uses settings and code you already have. Work through it before exposing the app, and look it over again after you update.</p>
-<p><strong>Keep <code>config.json</code> readable only by you.</strong> It holds <code>secret_key</code>, which signs your login cookie (anyone who has it can forge a logged-in session), plus <code>api_token</code> and <code>wearable_token</code>. <code>setup.py</code> writes the file with your system's default permissions, which usually let every account on the machine read it. On the machine running sardinetracker:</p>
+<p><strong>Keep <code>config.json</code> readable only by you.</strong> It holds <code>secret_key</code>, which signs your login cookie (anyone who has it can forge a logged-in session), plus <code>api_token</code> and <code>wearable_token</code>. <code>setup.py</code> writes the file with your system's default permissions, which usually let every account on the machine read it. On the machine running stroketracker:</p>
 <pre><code class="language-bash">chmod 600 config.json
 </code></pre>
 <p><strong>Know what each token opens.</strong> <code>api_token</code> opens health sync (writes daily biometrics) and flare status (reads your current flare score). With <code>single_user_mode</code> on, it also opens backup export, which downloads the whole record, and backup restore, which replaces the whole database. <code>wearable_token</code> opens only UV ingest. Neither token is tied to one account: whoever holds <code>api_token</code> can name any <code>user_id</code>. Treat it like a password to your data, not like a sync setting. <a href="#use-signed-requests-instead-of-a-shared-token">Signed requests</a>, below, fix both problems.</p>
@@ -491,7 +491,7 @@ python3 app.py
 <p>Paste the output over the old value in <code>config.json</code>, restart the app, and put the new token into each app that syncs. The old token stops working at restart. If <code>config.json</code> itself may have leaked, replace <code>secret_key</code> the same way; that also logs out every browser.</p>
 <p><strong>Never turn on <code>single_user_mode</code> on a server the internet can reach.</strong> It signs every visitor in as the only account, with no password. It exists for the Android local app, where the server runs on the phone itself.</p>
 <p><strong>Keep <code>debug</code> false.</strong> In debug mode, an error page carries Flask's interactive debugger, a Python console on your Pi guarded only by a PIN printed to the terminal. It's a tool for your own desk, not for a reachable server.</p>
-<p><strong>Listen only where you need to.</strong> <code>app.py</code> binds every network interface by default. Once the app is remote, that lets anyone on your WiFi reach Flask without passing Cloudflare Access or nginx. Bind to <code>127.0.0.1</code> for Option A or the Pi's Tailscale IP for Option B; see <a href="#step-1-get-sardinetracker-running-on-the-pi">Option A, Step 1</a> and <a href="#step-6-start-sardinetracker-on-the-pi-listening-on-tailscales-interface">Option B, Step 6</a>.</p>
+<p><strong>Listen only where you need to.</strong> <code>app.py</code> binds every network interface by default. Once the app is remote, that lets anyone on your WiFi reach Flask without passing Cloudflare Access or nginx. Bind to <code>127.0.0.1</code> for Option A or the Pi's Tailscale IP for Option B; see <a href="#step-1-get-stroketracker-running-on-the-pi">Option A, Step 1</a> and <a href="#step-6-start-stroketracker-on-the-pi-listening-on-tailscales-interface">Option B, Step 6</a>.</p>
 <p><strong>Leave registration off.</strong> <code>/register</code> only works while <code>registration_invite_code</code> is set in <code>config.json</code>. On a reachable server, set it just long enough for someone to sign up, then remove it and restart. The invite code is all that stands between a stranger and a new account.</p>
 <p><strong>The login form doesn't slow down guessers.</strong> There is no lockout and no delay after failed attempts. That's why a long password matters, and why a gate in front of the login (the next section) is worth the setup.</p>
 <p><strong>&quot;Remember me&quot; lasts a year.</strong> The cookie it sets is good for 365 days. On a borrowed or shared device, leave the box unticked and log out when you're done.</p>
@@ -527,7 +527,7 @@ python3 app.py
 </tr>
 </tbody>
 </table></div>
-<p><strong>Set one up.</strong> On the machine running sardinetracker:</p>
+<p><strong>Set one up.</strong> On the machine running stroketracker:</p>
 <pre><code class="language-bash">python api_clients.py new sardinessync health_sync flare_status --user 1
 </code></pre>
 <p>It prints an entry with a fresh secret, and writes nothing. Paste the entry inside <code>&quot;api_clients&quot;</code> in <code>config.json</code>, next to any other clients and separated from them by a comma:</p>
@@ -593,14 +593,14 @@ sudo certbot --nginx -d your.domain.com
 <p>Done. You're local only again either way.</p>
 <hr />
 <h2 id="auto-sync-from-apple-health">Auto-Sync from Apple Health</h2>
-<p>You don't have to type biometrics in by hand. Each phone platform has a companion app that reads your health data and sends it to your sardinetracker instance.</p>
+<p>You don't have to type biometrics in by hand. Each phone platform has a companion app that reads your health data and sends it to your stroketracker instance.</p>
 <h3 id="iphone-sardinessync">iPhone: sardinessync</h3>
-<p><strong><a href="https://github.com/alaricmoore/sardinessync">sardinessync</a></strong> is a native SwiftUI companion app that reads HealthKit on your iPhone, computes RMSSD on-device from raw RR intervals, and POSTs the result to your sardinetracker instance. It's in its own repo because the iOS code and the Flask code evolve on different cadences.</p>
+<p><strong><a href="https://github.com/alaricmoore/sardinessync">sardinessync</a></strong> is a native SwiftUI companion app that reads HealthKit on your iPhone, computes RMSSD on-device from raw RR intervals, and POSTs the result to your stroketracker instance. It's in its own repo because the iOS code and the Flask code evolve on different cadences.</p>
 <p><strong>Why this and not the App Store?</strong> It's not in the App Store. I don't pay Apple $99 a year to list a tool that runs on my own server, talks only to my own server, and has one user. You build it yourself.</p>
 <p><strong>What you need:</strong> an Apple ID, plus either a Mac with Xcode or a Linux machine with <a href="https://github.com/xtool-org/xtool">xtool</a>. No paid developer account required.</p>
 <p><strong>Free-signing reality:</strong> with a free personal Apple ID, builds work but the cert expires every 7 days, so you rebuild and reinstall weekly, about 2 minutes. If you pay Apple $99/year, builds last a year. I free-sign; weekly rebuild is an annoyance, not a blocker.</p>
 <p><strong>What it syncs:</strong> steps, HRV (SDNN), RMSSD, resting heart rate, respiratory rate, SpO2, basal body temperature, and time in daylight. RMSSD needs raw beat-to-beat (RR) intervals, which the app reads from HealthKit and turns into RMSSD on the phone over an overnight window (10pm-8am).</p>
-<p>The build and first-run steps live in the <a href="https://github.com/alaricmoore/sardinessync">sardinessync README</a>, for both Xcode and xtool. You'll need two things from this server: the sync URL (<code>https://your-sardinetracker-instance/api/health-sync</code>) and the <code>api_token</code> from your <code>config.json</code>. When a sync works, the app reports something like <code>synced 9 fields: steps, hrv, ...</code>.</p>
+<p>The build and first-run steps live in the <a href="https://github.com/alaricmoore/sardinessync">sardinessync README</a>, for both Xcode and xtool. You'll need two things from this server: the sync URL (<code>https://your-stroketracker-instance/api/health-sync</code>) and the <code>api_token</code> from your <code>config.json</code>. When a sync works, the app reports something like <code>synced 9 fields: steps, hrv, ...</code>.</p>
 <p>It then runs automatically in the background overnight. Flare alerts and medication dose reminders arrive as local push notifications.</p>
 <p><strong>Xcode sucks. Hard.</strong> If you're reading this after the third &quot;Command failed due to signal: Segmentation fault: 11&quot; — I'm sorry, we've all been there.</p>
 <h3 id="android-sardinesync-android">Android: sardinesync-android</h3>
@@ -622,9 +622,9 @@ sudo certbot --nginx -d your.domain.com
   <div class="wrap">
     <div class="links">
       <a href="/">sardinetracker.com</a>
-      <a href="https://github.com/alaricmoore/sardinetracker">source &#8599;</a>
-      <a href="https://github.com/alaricmoore/sardinetracker/blob/main/MODEL.md">how the model works &#8599;</a>
-      <a href="https://github.com/alaricmoore/sardinetracker/blob/main/LICENSE">AGPL-3.0 &#8599;</a>
+      <a href="https://github.com/alaricmoore/stroketracker">source &#8599;</a>
+      <a href="https://github.com/alaricmoore/stroketracker/blob/main/MODEL.md">how the model works &#8599;</a>
+      <a href="https://github.com/alaricmoore/stroketracker/blob/main/LICENSE">AGPL-3.0 &#8599;</a>
     </div>
     <p>A one-person project, built between doctor appointments, machine repair, and terrariums.
        Not medical advice; always consult qualified clinicians. Trust your observations.

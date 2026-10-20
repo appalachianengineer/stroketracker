@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}medication log — stroketracker{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>medication log</h1>
+    <p class="page-subtitle">consumption times &amp; reminders</p>
+</div>
+
+<div class="card">
+    <div class="card-title">reminders</div>
+    <p style="font-size:0.85rem; color:var(--text-muted);">
+        When on, a reminder is pushed to your phone (ntfy) at each consumption time below —
+        the same channel as the 9am fatigue check-in. Turning this off only stops the
+        notifications; doses still appear on your daily entry.
+    </p>
+    <form method="post" action="{{ url_for('medlog_reminders') }}">
+        {% if reminders_on %}
+        <input type="hidden" name="enabled" value="0">
+        <button type="submit" class="btn btn-secondary btn-sm">reminders: on — turn off</button>
+        {% else %}
+        <input type="hidden" name="enabled" value="1">
+        <button type="submit" class="btn btn-primary btn-sm">reminders: off — turn on</button>
+        {% endif %}
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-title">consumption times</div>
+    {% if doses %}
+        {% for day in doses %}
+        <div style="margin-bottom: var(--space-sm);">
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:var(--space-xs);">
+                {{ day.date }}{% if day.date == today %} (today){% endif %}
+            </div>
+            {% for dose in day.doses %}
+            <div style="display:flex; align-items:center; gap:var(--space-md); padding:var(--space-xs) 0;
+                        border-bottom:1px solid var(--border-subtle);
+                        {% if dose.taken %}opacity:0.5;{% endif %}">
+                <div style="flex:0 0 auto; min-width:52px; font-family:var(--font-mono); font-size:0.85rem; color:var(--text-muted);">
+                    {{ dose.scheduled_datetime[11:16] }}
+                </div>
+                <div style="flex:1; font-size:0.9rem;
+                            {% if dose.taken %}text-decoration:line-through; color:var(--text-muted);{% endif %}">
+                    {{ dose.dose_label }}
+                </div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">
+                    {% if dose.taken %}taken{% if dose.taken_at %} {{ dose.taken_at[11:16] }}{% endif %}
+                    {% elif dose.notified %}reminder sent
+                    {% else %}scheduled{% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    {% else %}
+    <p style="font-size:0.85rem; color:var(--text-muted);">
+        No scheduled doses in the next 7 days — add consumption times below.
+    </p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <div class="card-title">add consumption times</div>
+    {% if meds %}
+    <form method="post" action="{{ url_for('medlog_dose_add') }}">
+        <div style="display:flex; gap:var(--space-sm); flex-wrap:wrap; align-items:flex-end;">
+            <div style="flex:1; min-width:180px;">
+                <label>medication</label>
+                <select name="medication_id" required>
+                    {% for med in meds %}
+                    <option value="{{ med.id }}">
+                        {{ med.drug_name }}{% if med.dose %} {{ med.dose }}{% if med.unit %} {{ med.unit }}{% endif %}{% endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label>date</label>
+                <input type="date" name="date" value="{{ today }}">
+            </div>
+            <div>
+                <label>time</label>
+                <input type="time" name="time" value="09:00">
+            </div>
+            <div>
+                <label>repeat (days)</label>
+                <input type="number" name="repeat_days" min="1" max="30" value="7" style="width:5rem;">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">schedule</button>
+        </div>
+    </form>
+    <p style="font-size:0.75rem; color:var(--text-muted); margin-top:var(--space-sm);">
+        Creates one scheduled dose per day at that time, starting on the chosen date.
+        Add or change the medications themselves on the
+        <a href="{{ url_for('hrv_view') }}">medications &amp; reactions</a> page.
+    </p>
+    {% else %}
+    <p style="font-size:0.85rem; color:var(--text-muted);">
+        No active medications yet — add them on the
+        <a href="{{ url_for('hrv_view') }}">medications &amp; reactions</a> page first.
+    </p>
+    {% endif %}
+</div>
+{% endblock %}

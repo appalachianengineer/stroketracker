@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}saved — sardinetracker{% endblock %}
+{% block title %}saved — stroketracker{% endblock %}
 {% block content %}
 <div class="page-header">
     <h1>entry saved</h1>
@@ -17,6 +17,14 @@
         <tr>
             <td>fatigue</td>
             <td class="mono">{{ entry.fatigue_scale if entry.fatigue_scale is not none else '—' }}</td>
+        </tr>
+        <tr>
+            <td>fatigue — morning</td>
+            <td class="mono">{{ entry.fatigue_morning if entry.fatigue_morning is not none else '—' }}</td>
+        </tr>
+        <tr>
+            <td>fatigue — evening</td>
+            <td class="mono">{{ entry.fatigue_evening if entry.fatigue_evening is not none else '—' }}</td>
         </tr>
         <tr>
             <td>hours slept</td>

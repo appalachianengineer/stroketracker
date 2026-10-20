@@ -548,7 +548,8 @@ def _export_csvs_to_zip(zipf, user_id):
         'date', 'steps', 'hours_slept', 'hrv', 'hrv_rmssd',
         'resting_heart_rate', 'spo2', 'respiratory_rate',
         'basal_temp_delta', 'sun_exposure_min', 'uv_protection_level', 'stayed_indoors',
-        'pain_scale', 'fatigue_scale', 'emotional_state', 'emotional_notes',
+        'pain_scale', 'fatigue_scale', 'fatigue_morning', 'fatigue_evening',
+        'emotional_state', 'emotional_notes',
         'neurological', 'neuro_notes', 'cognitive', 'cognitive_notes',
         'musculature', 'musculature_notes', 'migraine', 'migraine_notes',
         'pulmonary', 'pulmonary_notes', 'dermatological', 'derm_notes',
@@ -559,6 +560,7 @@ def _export_csvs_to_zip(zipf, user_id):
         'flare_occurred', 'flare_severity',
         'strike_physical', 'strike_environmental',
         'notes',
+        'stressors',
     ]))
 
     # Labs

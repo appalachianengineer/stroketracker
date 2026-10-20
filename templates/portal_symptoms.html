@@ -8,6 +8,8 @@
       <div class="stat"><div class="k">High-burden days</div><div class="v" style="color:var(--color-danger);">{{ period.flare_days }}</div></div>
       <div class="stat"><div class="k">Mean pain</div><div class="v">{{ period.mean_pain if period.mean_pain is not none else '—' }}</div></div>
       <div class="stat"><div class="k">Mean fatigue</div><div class="v">{{ period.mean_fatigue if period.mean_fatigue is not none else '—' }}</div></div>
+      <div class="stat"><div class="k">Mean fatigue — am</div><div class="v">{{ period.mean_fatigue_morning if period.mean_fatigue_morning is not none else '—' }}</div></div>
+      <div class="stat"><div class="k">Mean fatigue — pm</div><div class="v">{{ period.mean_fatigue_evening if period.mean_fatigue_evening is not none else '—' }}</div></div>
     </div>
   </section>
 

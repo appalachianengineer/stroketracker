@@ -1,4 +1,4 @@
-# Contributing to sardinetracker
+# Contributing to stroketracker
 
 First, thank you for being here. Whether you found this project because you're sick and frustrated and recognized yourself in the README, or because you're a developer who wants to build something useful, or both: welcome.
 

@@ -42,7 +42,7 @@ def load_existing_config() -> dict:
 
 def create_config():
     """Walk the user through creating their local config file."""
-    print("\n--- sardinetracker first-time setup ---")
+    print("\n--- stroketracker first-time setup ---")
     print("This config file is gitignored and stays on your machine only.")
     print("Re-running setup will not erase existing values unless you change them.\n")
 
@@ -175,6 +175,8 @@ def create_database():
             sun_exposure_min    INTEGER,           -- minutes, from Apple Health or manual
             pain_scale          REAL,              -- 0-10
             fatigue_scale       REAL,              -- 0-10
+            fatigue_morning     REAL,              -- 0-10, morning reading (9am log)
+            fatigue_evening     REAL,              -- 0-10, evening reading
             emotional_state     REAL,              -- 0-10
             emotional_notes     TEXT,
 
@@ -213,6 +215,7 @@ def create_database():
 
             -- Catch-all
             notes               TEXT,
+            stressors           TEXT,             -- timestamped stressor log entries
 
             -- UV context
             stayed_indoors      INTEGER DEFAULT 0,
@@ -570,13 +573,16 @@ def create_database():
             last_logged_at            TEXT,
             last_reminder_date        TEXT,
             last_period_nudge_date    TEXT,
+            last_fatigue_reminder_date TEXT,
+            med_reminders_enabled     INTEGER DEFAULT 1,
             steps_baseline            INTEGER
         )
     """)
 
     # Migration: add reminder columns if missing (existing DBs)
     for col, coltype in [("reminder_hours", "INTEGER"), ("last_logged_at", "TEXT"),
-                         ("last_reminder_date", "TEXT")]:
+                         ("last_reminder_date", "TEXT"),
+                         ("last_fatigue_reminder_date", "TEXT")]:
         try:
             c.execute(f"ALTER TABLE user_preferences ADD COLUMN {col} {coltype}")
         except sqlite3.OperationalError:
@@ -621,7 +627,7 @@ def verify_setup():
 
 
 def main():
-    print("sardinetracker setup")
+    print("stroketracker setup")
     print("==================")
 
     # Check for existing setup

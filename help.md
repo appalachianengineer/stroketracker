@@ -1,4 +1,4 @@
-# Sardinetracker — Help Guide
+# Stroketracker — Help Guide
 
 *A plain-English guide to using the app and understanding what it's tracking.*
 
@@ -6,7 +6,7 @@
 
 ## What Is This App?
 
-Sardinetracker (formerly biotracker) is a personal health logging app built specifically for people managing photosensitive autoimmune and rheumatic conditions — things like lupus, mixed connective tissue disease, or any illness where symptoms are unpredictable, hard to explain to doctors, and deeply affected by things like sun exposure, sleep, and hormonal cycles.
+Stroketracker (formerly biotracker) is a personal health logging app built specifically for people managing photosensitive autoimmune and rheumatic conditions — things like lupus, mixed connective tissue disease, or any illness where symptoms are unpredictable, hard to explain to doctors, and deeply affected by things like sun exposure, sleep, and hormonal cycles.
 
 It was built by Alaric, who has lupus, because she couldn't find a tool that did what she actually needed: connect the dots between daily life and disease activity, and produce something useful to bring to a 15-minute doctor's appointment.
 
@@ -192,7 +192,7 @@ The app can nudge your phone: medication doses, an elevated flare risk, a missed
 
 1. Install the **ntfy** app on your phone (App Store or Google Play).
 2. In the app, tap **+** and subscribe to a topic. Make the name long and unguessable, like `sardines-k7x9qm3p`. **ntfy topics are public:** anyone who knows the name can read what's sent to it, so don't use your name or anything else obvious.
-3. In sardinetracker, open **Settings**, enter the same name in **ntfy topic**, and save.
+3. In stroketracker, open **Settings**, enter the same name in **ntfy topic**, and save.
 
 Each account sets its own topic, so everyone on a shared instance gets only their own notifications. If you'd rather not rely on the public ntfy.sh service, you can run your own ntfy server and put its address in the **ntfy server** field.
 
@@ -225,7 +225,7 @@ The flare alert needs at least 3 logged days before it can say anything.
 
 ## Auto-Sync from Your Phone
 
-Your phone can send biometric data to sardinetracker automatically, with no typing required for steps, HRV, resting heart rate, respiratory rate, SpO2, or basal body temperature. Each platform has its own companion app.
+Your phone can send biometric data to stroketracker automatically, with no typing required for steps, HRV, resting heart rate, respiratory rate, SpO2, or basal body temperature. Each platform has its own companion app.
 
 ### iPhone: sardinessync
 
@@ -234,7 +234,7 @@ Your phone can send biometric data to sardinetracker automatically, with no typi
 - Reads everything HealthKit offers, including RR intervals for overnight RMSSD, Time in Daylight, and respiratory rate
 - Computes RMSSD from raw heartbeat intervals on your phone (better accuracy than Apple's built-in HRV number)
 - Handles background sync automatically, with no manual triggering
-- Gives you a tab with mobile-friendly sardinetracker pages and local push notifications for flare alerts / medication doses
+- Gives you a tab with mobile-friendly stroketracker pages and local push notifications for flare alerts / medication doses
 
 It's not in the App Store (not paying Apple $99/yr for a hobby project's listing). You clone the repo, build it, and install it on your iPhone yourself. With a free personal Apple ID the app expires every 7 days and needs a re-install, about 2 minutes once you're set up. If you pay Apple the $99/yr, it lasts a year between rebuilds.
 
@@ -251,7 +251,7 @@ See the sardinessync repo's README for the full setup walkthrough. The short ver
 
 ### A note about your API token
 
-Whatever the app uses to reach the server, an API token or a client secret for signed requests, can write your biometrics and read your flare score. Treat it like a password, and don't paste it anywhere you wouldn't paste your sardinetracker login. If it may have leaked, the remote access guide explains how to replace it.
+Whatever the app uses to reach the server, an API token or a client secret for signed requests, can write your biometrics and read your flare score. Treat it like a password, and don't paste it anywhere you wouldn't paste your stroketracker login. If it may have leaked, the remote access guide explains how to replace it.
 
 ---
 
@@ -267,7 +267,7 @@ The **Search** page looks through your daily entries, labs, clinical events and 
 
 **Delete your data.** Next to it, **Delete** removes your account and everything in it, including uploaded documents, and logs you out. Nobody else's account is touched. You have to type `DELETE MY DATA` to confirm, and there is no undo, so download first.
 
-**If you run your own instance**, everything lives in the sardinetracker folder (or wherever `SARDINE_DATA_DIR` points):
+**If you run your own instance**, everything lives in the stroketracker folder (or wherever `SARDINE_DATA_DIR` points):
 
 - `biotracking.db`: the database
 - `config.json`: settings and secrets

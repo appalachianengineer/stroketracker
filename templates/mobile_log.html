@@ -1,6 +1,6 @@
 {% extends "mobile_base.html" %}
 
-{% block title %}log — sardinetracker{% endblock %}
+{% block title %}log — stroketracker{% endblock %}
 
 {% block head %}
 <style>
@@ -191,11 +191,23 @@
             <span class="range-val">{{ existing.pain_scale|int if existing and existing.pain_scale is not none else 0 }}</span>
         </div>
         <div class="range-row">
-            <label>fatigue</label>
+            <label>fatigue (overall)</label>
             <input type="range" name="fatigue_scale" min="0" max="10" step="1"
                    value="{{ existing.fatigue_scale|int if existing and existing.fatigue_scale is not none else 0 }}"
                    oninput="this.nextElementSibling.textContent = this.value">
             <span class="range-val">{{ existing.fatigue_scale|int if existing and existing.fatigue_scale is not none else 0 }}</span>
+        </div>
+        <div class="range-row">
+            <label>fatigue am</label>
+            <input type="number" name="fatigue_morning" min="0" max="10" step="0.5"
+                   value="{{ existing.fatigue_morning if existing and existing.fatigue_morning is not none else '' }}"
+                   placeholder="—">
+        </div>
+        <div class="range-row">
+            <label>fatigue pm</label>
+            <input type="number" name="fatigue_evening" min="0" max="10" step="0.5"
+                   value="{{ existing.fatigue_evening if existing and existing.fatigue_evening is not none else '' }}"
+                   placeholder="—">
         </div>
     </div>
 

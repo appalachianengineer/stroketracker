@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}stressors — stroketracker{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>stressors</h1>
+    <p class="page-subtitle">stress log</p>
+</div>
+
+{% if error %}
+<div class="card" style="border: 1px solid var(--color-danger);">
+    <div class="card-title" style="color: var(--color-danger);">{{ error }}</div>
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-title">add a stressor</div>
+    <form method="post" action="{{ url_for('stress_quick') }}">
+        <div style="display:flex; gap:var(--space-sm); align-items:stretch; flex-wrap:wrap;">
+            <div style="flex:1; min-width:240px;">
+                <label>what happened</label>
+                <textarea name="text" placeholder="what stressed you, briefly…"
+                          style="min-height: 90px;"></textarea>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:var(--space-xs); width:10rem;">
+                <label>date</label>
+                <input type="date" name="date" value="{{ today }}">
+                <label>time</label>
+                <input type="time" name="time" value="{{ now_time }}">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm" style="margin-top: var(--space-sm);">save</button>
+    </form>
+</div>
+
+{% if days %}
+{% for day in days %}
+<div class="card">
+    <div class="card-title">{{ day.date }}</div>
+    <table class="data-table">
+        {% for entry in day.entries %}
+        <tr>
+            <td class="mono" style="width:70px; color:var(--text-muted);">{{ entry.time or '—' }}</td>
+            <td>{{ entry.text }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endfor %}
+{% else %}
+<div class="card">
+    <div class="card-title">no stressors logged yet</div>
+    <p style="font-size:0.85rem; color:var(--text-muted);">
+        entries appear here, newest day first, each stamped with the time you logged it.
+    </p>
+</div>
+{% endif %}
+{% endblock %}

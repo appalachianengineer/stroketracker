@@ -10,6 +10,7 @@
     "start_date": "2025-01-01"
   },
   "track_cycle": false,
+  "fatigue_reminder_hour": 9,
   "ntfy_topic": "your-unique-topic-name",
   "ntfy_server": "https://ntfy.sh",
   "visual_crossing_api_key": "YOUR_API_KEY_HERE",

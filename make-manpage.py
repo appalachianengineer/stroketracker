@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""Render sardinetracker(7) -- the triage runbook, as a man page.
+"""Render stroketracker(7) -- the triage runbook, as a man page.
 
 Two inputs, one output. TROUBLESHOOTING.md carries the general triage and is
 the same file the website publishes, so the procedures can't drift.
 runbook-site.md is the private overlay holding this installation's real
 addresses, and is folded in as the first section.
 
-    python3 make-manpage.py            # write man/sardinetracker.7
+    python3 make-manpage.py            # write man/stroketracker.7
     python3 make-manpage.py --install  # ...and copy it onto the manpath
 
-Then: man sardinetracker
+Then: man stroketracker
 
 No pandoc. It would mean a Haskell toolchain for one document, and the
 markdown here uses a small enough subset that rendering it directly is less
@@ -27,10 +27,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 GENERAL = ROOT / "TROUBLESHOOTING.md"
 SITE = ROOT / "runbook-site.md"
-OUT = ROOT / "man" / "sardinetracker.7"
+OUT = ROOT / "man" / "stroketracker.7"
 MANPATH = Path.home() / ".local/share/man/man7"
 
-NAME = "sardinetracker"
+NAME = "stroketracker"
 SECTION = "7"
 
 # Characters roff would rather receive as escapes.
@@ -332,7 +332,7 @@ def build() -> str:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Render sardinetracker(7).")
+    ap = argparse.ArgumentParser(description="Render stroketracker(7).")
     ap.add_argument("--install", action="store_true",
                     help=f"also copy the page into {MANPATH}")
     args = ap.parse_args()

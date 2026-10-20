@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Features &#8212; sardinetracker</title>
+<title>Features &#8212; stroketracker</title>
 <meta name="description" content="Everything the tracker does, one area at a time: daily logging, the flare model, interventions, the clinical record and the clinician portal.">
 <link rel="canonical" href="https://sardinetracker.com/docs/features">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -11,8 +11,8 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sardinetracker.com/docs/features">
-<meta property="og:site_name" content="sardinetracker">
-<meta property="og:title" content="Features &#8212; sardinetracker">
+<meta property="og:site_name" content="stroketracker">
+<meta property="og:title" content="Features &#8212; stroketracker">
 <meta property="og:description" content="Everything the tracker does, one area at a time: daily logging, the flare model, interventions, the clinical record and the clinician portal.">
 <meta property="og:image" content="https://sardinetracker.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,8 +110,8 @@
 <body>
 <header>
   <div class="wrap nav">
-    <div class="wordmark"><a href="/" style="color:inherit">sardine<span>tracker</span></a></div>
-    <ul><li><a href="/docs/remote-access">remote access</a></li><li><a href="/docs/troubleshooting">troubleshooting</a></li><li><a href="/docs/help">help</a></li><li><a class="here" href="/docs/features">features</a></li><li><a href="/docs/importing">importing</a></li><li><a href="https://github.com/alaricmoore/sardinetracker">github &#8599;</a></li></ul>
+    <div class="wordmark"><a href="/" style="color:inherit">stroke<span>tracker</span></a></div>
+    <ul><li><a href="/docs/remote-access">remote access</a></li><li><a href="/docs/troubleshooting">troubleshooting</a></li><li><a href="/docs/help">help</a></li><li><a class="here" href="/docs/features">features</a></li><li><a href="/docs/importing">importing</a></li><li><a href="https://github.com/alaricmoore/stroketracker">github &#8599;</a></li></ul>
   </div>
 </header>
 <main>
@@ -122,7 +122,7 @@
   </div>
   <div class="wrap layout">
     <nav class="toc" aria-label="On this page"><span class="lbl">On this page</span><ul><li><a href="#daily-tracking">Daily Tracking</a></li><li><a href="#menstrual-cycle-tracking-optional">Menstrual Cycle Tracking (Optional)</a></li><li><a href="#data-visualization--analysis">Data Visualization &amp; Analysis</a></li><li><a href="#flare-prediction-model">Flare Prediction Model</a></li><li><a href="#forecast-lab-model-tuning">Forecast Lab (model tuning)</a></li><li><a href="#model-performance-tracking">Model Performance Tracking</a></li><li><a href="#intervention-tracking--side-effects-interventions-nav-label-reactions">Intervention Tracking &amp; Side Effects (`/interventions`, nav label &quot;reactions&quot;)</a></li><li><a href="#uv-wearable-wearable--prototype">UV Wearable (`/wearable`) — Prototype</a></li><li><a href="#clinical-record-management">Clinical Record Management</a></li><li><a href="#clinician-portal-share-your-record">Clinician Portal (share your record)</a></li><li><a href="#search--navigation">Search &amp; Navigation</a></li><li><a href="#data-privacy--security">Data Privacy &amp; Security</a></li><li><a href="#technical-features">Technical Features</a></li></ul></nav>
-    <article class="prose"><p>The full feature list, one area at a time. For installing, see the <a href="https://github.com/alaricmoore/sardinetracker/blob/main/README.md">README</a>. For how to use each part day to day, see <a href="/docs/help">using sardinetracker</a>. For how the flare score is calculated, see <a href="https://github.com/alaricmoore/sardinetracker/blob/main/MODEL.md">MODEL.md</a>.</p>
+    <article class="prose"><p>The full feature list, one area at a time. For installing, see the <a href="https://github.com/alaricmoore/stroketracker/blob/main/README.md">README</a>. For how to use each part day to day, see <a href="/docs/help">using stroketracker</a>. For how the flare score is calculated, see <a href="https://github.com/alaricmoore/stroketracker/blob/main/MODEL.md">MODEL.md</a>.</p>
 <h2 id="daily-tracking">Daily Tracking</h2>
 <ul>
 <li><strong>Symptom logging</strong>: Track 9 symptom categories with detailed notes (neurological, cognitive, musculature, migraine, pulmonary, dermatological, mucosal, rheumatic, gastrointestinal)</li>
@@ -250,7 +250,7 @@
 <ul>
 <li><strong>Local-first</strong>: All data stored in local SQLite database on your machine</li>
 <li><strong>No cloud sync</strong>: Data never leaves your computer by default</li>
-<li><strong>Accounts and login</strong>: every page sits behind a username and password (bcrypt-hashed); each account's records are kept separate. See <a href="https://github.com/alaricmoore/sardinetracker/blob/main/README.md#accounts-and-login">Accounts and Login</a> in the README.</li>
+<li><strong>Accounts and login</strong>: every page sits behind a username and password (bcrypt-hashed); each account's records are kept separate. See <a href="https://github.com/alaricmoore/stroketracker/blob/main/README.md#accounts-and-login">Accounts and Login</a> in the README.</li>
 <li><strong>Optional remote access</strong>: reach your instance from outside the house through a Cloudflare Tunnel or a Tailscale-connected VPS, with a checklist for hardening the app before it faces the internet (see <a href="/docs/remote-access">remote access</a>)</li>
 <li><strong>Version control safe</strong>: Comprehensive <code>.gitignore</code> protects health data from accidental commits</li>
 <li><strong>Export control</strong>: You decide what data leaves your system and when</li>
@@ -270,9 +270,9 @@
   <div class="wrap">
     <div class="links">
       <a href="/">sardinetracker.com</a>
-      <a href="https://github.com/alaricmoore/sardinetracker">source &#8599;</a>
-      <a href="https://github.com/alaricmoore/sardinetracker/blob/main/MODEL.md">how the model works &#8599;</a>
-      <a href="https://github.com/alaricmoore/sardinetracker/blob/main/LICENSE">AGPL-3.0 &#8599;</a>
+      <a href="https://github.com/alaricmoore/stroketracker">source &#8599;</a>
+      <a href="https://github.com/alaricmoore/stroketracker/blob/main/MODEL.md">how the model works &#8599;</a>
+      <a href="https://github.com/alaricmoore/stroketracker/blob/main/LICENSE">AGPL-3.0 &#8599;</a>
     </div>
     <p>A one-person project, built between doctor appointments, machine repair, and terrariums.
        Not medical advice; always consult qualified clinicians. Trust your observations.

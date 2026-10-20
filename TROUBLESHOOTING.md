@@ -264,7 +264,7 @@ working:
 
 ```bash
 python3 make-manpage.py --install
-man sardinetracker
+man stroketracker
 ```
 
 No dependencies beyond Python 3 — it renders the markdown directly rather than

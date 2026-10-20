@@ -13,7 +13,7 @@ import db
 from typing import Optional, Dict, List
 
 from appcore import app, get_location_key, uid
-from flaremodel import _inject_cycle_phase, _inject_scoring_context, _score_components, get_current_weights
+from flaremodel import _inject_cycle_phase, _inject_scoring_context, _score_components, effective_fatigue, get_current_weights
 
 
 @app.route("/model")
@@ -208,7 +208,7 @@ def compute_lag_correlations(observations: list, uv_data: list) -> dict:
     # Symptom targets - continuous scales and boolean flags
     targets = {
         "pain":          lambda o: o.get("pain_scale"),
-        "fatigue":       lambda o: o.get("fatigue_scale"),
+        "fatigue":       lambda o: effective_fatigue(o),
         "neurological":  lambda o: o.get("neurological"),
         "musculature":   lambda o: o.get("musculature"),
         "migraine":      lambda o: o.get("migraine"),

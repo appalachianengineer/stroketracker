@@ -43,7 +43,7 @@ import routes.admin  # noqa: F401
 # ============================================================
 
 if __name__ == "__main__":
-    print("\nsardinetracker")
+    print("\nstroketracker")
     print("==============")
     print(f"Patient: {CONFIG.get('patient_name', 'not set')}")
     print(f"Starting server...")

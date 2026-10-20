@@ -79,6 +79,19 @@ TIERS = {
 }
 
 
+def _eff_fatigue(obs):
+    """The day's fatigue for ranking: the worst of the overall, morning and
+    evening readings — None when nothing was logged. Mirrors
+    flaremodel.effective_fatigue without importing the app stack (this tool
+    runs standalone against a database file)."""
+    if not obs:
+        return None
+    readings = [v for v in (obs.get('fatigue_scale'),
+                            obs.get('fatigue_morning'),
+                            obs.get('fatigue_evening')) if v is not None]
+    return max(readings) if readings else None
+
+
 # ============================================================
 # DATA ACCESS — read-only
 # ============================================================
@@ -170,7 +183,8 @@ def data_gaps(date_str, obs_by_date, uv_by_date, window=14):
     can say 'I don't know' instead of quietly reasoning from absent data."""
     target = datetime.strptime(date_str, "%Y-%m-%d").date()
     gaps = []
-    for field in ('hrv_rmssd', 'respiratory_rate', 'pain_scale', 'fatigue_scale'):
+    for field in ('hrv_rmssd', 'respiratory_rate', 'pain_scale', 'fatigue_scale',
+                  'fatigue_morning', 'fatigue_evening'):
         missing = sum(
             1 for off in range(0, window)
             if (obs_by_date.get((target - timedelta(days=off)).isoformat()) or {}).get(field) is None
@@ -216,8 +230,10 @@ def build(conn, date_str, location_key=None):
         'today': {
             'pain': today.get('pain_scale') if today else None,
             'pain_tier': _tier(today.get('pain_scale') if today else None, TIERS['pain']),
-            'fatigue': today.get('fatigue_scale') if today else None,
-            'fatigue_tier': _tier(today.get('fatigue_scale') if today else None, TIERS['fatigue']),
+            'fatigue': _eff_fatigue(today),
+            'fatigue_tier': _tier(_eff_fatigue(today), TIERS['fatigue']),
+            'fatigue_morning': today.get('fatigue_morning') if today else None,
+            'fatigue_evening': today.get('fatigue_evening') if today else None,
             'emotional_state': today.get('emotional_state') if today else None,
             'active_symptoms': active,
             'symptom_count': len(active),
@@ -270,7 +286,8 @@ def render(d):
     if t:
         L.append("TODAY")
         L.append(f"  pain {n(t['pain'])}{tier(t['pain_tier'])}")
-        L.append(f"  fatigue {n(t['fatigue'])}{tier(t['fatigue_tier'])}")
+        L.append(f"  fatigue {n(t['fatigue'])}{tier(t['fatigue_tier'])}"
+                 f"  (am {n(t['fatigue_morning'])} | pm {n(t['fatigue_evening'])})")
         L.append(f"  emotional state {n(t['emotional_state'])}"
                  f"{'  -> LOW (<=4)' if t['emotional_state'] is not None and t['emotional_state'] <= 4 else ''}")
         L.append(f"  active symptoms ({t['symptom_count']}/9): "

@@ -1,6 +1,7 @@
 """
 Background jobs and ntfy push notifications: medication reminders,
-flare-risk alerts, UV fetch checks, daily and period nudges.
+flare-risk alerts, UV fetch checks, daily and period nudges, and the
+morning fatigue check-in.
 
 Importing this module starts the scheduler.
 """
@@ -329,6 +330,62 @@ def _check_daily_reminders() -> None:
         print(f"[daily-reminder] error: {e}")
 
 
+def _check_fatigue_reminder() -> None:
+    """Daily job: remind users to log their morning fatigue reading.
+
+    Fatigue is tracked as a morning and an evening 0-10 reading; the
+    morning one is easy to lose to the day, so it gets a dedicated nudge
+    at 09:00 (CONFIG["fatigue_reminder_hour"]) — timed to land alongside
+    the morning medication dose reminders, so both get handled in one
+    sitting. Skips anyone who already logged a morning reading today, and
+    is rate-limited to one reminder per calendar day per user.
+    """
+    try:
+        users = db.get_users_with_ntfy()
+        if not users:
+            return
+
+        for user in users:
+            user_id = user["user_id"]
+
+            tz_name = user.get("timezone") or CONFIG.get("timezone", "UTC")
+            try:
+                from zoneinfo import ZoneInfo
+                user_now = datetime.now(ZoneInfo(tz_name))
+            except Exception:
+                user_now = datetime.now()
+
+            today_str = user_now.strftime("%Y-%m-%d")
+
+            # Rate limit: one fatigue reminder per calendar day
+            if user.get("last_fatigue_reminder_date") == today_str:
+                continue
+
+            # Already logged this morning's reading? Nothing to remind about.
+            today_obs = db.get_daily_observations(user_id, today_str)
+            if today_obs and today_obs.get("fatigue_morning") is not None:
+                continue
+
+            topic = user.get("ntfy_topic")
+            server = user.get("ntfy_server") or "https://ntfy.sh"
+            display = user.get("display_name") or user.get("username", "")
+            _send_ntfy_alert(
+                f"Morning {display} — log your morning fatigue (0-10) with your meds, while it's fresh.",
+                title="Morning fatigue check-in",
+                priority="high",
+                tags="bar_chart",
+                server=server,
+                topic=topic,
+            )
+
+            try:
+                db.upsert_user_preferences(user_id, {"last_fatigue_reminder_date": today_str})
+            except Exception as e:
+                print(f"[fatigue-reminder] state save failed for user {user_id}: {e}")
+    except Exception as e:
+        print(f"[fatigue-reminder] error: {e}")
+
+
 def _check_period_nudge() -> None:
     """Hourly job: nudge users who logged period flow 4 days ago but nothing since.
     Helps keep cycle tracking accurate by prompting continued flow logging."""
@@ -430,4 +487,7 @@ if not _is_reloader_parent and not _embedded:
                        id="daily_reminders", replace_existing=True)
     _scheduler.add_job(_check_period_nudge, "cron", minute=30,
                        id="period_nudge", replace_existing=True)
+    _fatigue_reminder_hour = CONFIG.get("fatigue_reminder_hour", 9)
+    _scheduler.add_job(_check_fatigue_reminder, "cron", hour=_fatigue_reminder_hour, minute=0,
+                       id="fatigue_reminder", replace_existing=True)
     _scheduler.start()
