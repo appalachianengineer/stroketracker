@@ -346,3 +346,4 @@ def test_nav_has_data_dropdown_with_add_note_and_activity_log(app_client, user):
     assert 'href="/search"' in html              # search moved in
     assert "view log" in html                    # renamed activity log
     assert 'href="/stress"' in html and 'href="/medlog"' in html
+    assert 'id="navHamburgerBtn"' in html        # narrow-screen hamburger
