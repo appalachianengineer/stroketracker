@@ -6,16 +6,18 @@
 <div class="page-header" style="text-align: center;">
     <p style="font-size:0.75rem; margin-top:0; margin-bottom:var(--space-xs);">
         <span style="color:var(--text-secondary);">daily entry</span>
+    </p>
+    <h1>{{ entry_date }}</h1>
+    <p style="font-size:0.75rem; margin-top:var(--space-xs);">
         {% if quick_mode %}
-        <a href="{{ url_for('daily_entry', date=entry_date) }}" style="color:var(--text-muted); margin-left:var(--space-md);">full entry</a>
+        <a href="{{ url_for('daily_entry', date=entry_date) }}" style="color:var(--text-muted);">full entry</a>
         <span style="color:var(--color-accent); margin-left:var(--space-sm);">quick entry</span>
         {% else %}
-        <span style="color:var(--color-accent); margin-left:var(--space-md);">full entry</span>
+        <span style="color:var(--color-accent);">full entry</span>
         <a href="{{ url_for('daily_entry', date=entry_date, mode='quick') }}"
            style="color:var(--text-muted); margin-left:var(--space-sm);">quick entry</a>
         {% endif %}
     </p>
-    <h1>{{ entry_date }}</h1>
 </div>
 
 <!-- Date navigation -->
