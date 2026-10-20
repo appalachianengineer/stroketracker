@@ -236,6 +236,17 @@
             gap: var(--space-md);
         }
 
+        /* Right-side header controls (theme, name, help, logout) live in
+           their own non-wrapping group so they always share a horizontal
+           band with the wordmark, whatever the nav does. */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
         .app-wordmark {
             font-family: var(--font-display);
             font-size: 1.1rem;
@@ -857,17 +868,19 @@
                             <a href="{{ url_for('search') }}" class="nav-dropitem{% if request.endpoint == 'search' %} active{% endif %}">search</a>
                         </div>
                     </li>
-                    <li style="margin-left: auto; display: flex; align-items: center; gap: 0.5rem;">
-                        <button id="theme-toggle"
-                                style="background: var(--bg-elevated);
-                                       border: 1px solid var(--border-subtle);
-                                       border-radius: 20px;
-                                       padding: 0.25rem;
-                                       cursor: pointer;
-                                       display: flex;
-                                       gap: 0.25rem;
-                                       transition: all 0.2s;"
-                                aria-label="Toggle light/dark theme">
+                </ul>
+            </nav>
+            <div class="header-right">
+                <button id="theme-toggle"
+                        style="background: var(--bg-elevated);
+                               border: 1px solid var(--border-subtle);
+                               border-radius: 20px;
+                               padding: 0.25rem;
+                               cursor: pointer;
+                               display: flex;
+                               gap: 0.25rem;
+                               transition: all 0.2s;"
+                        aria-label="Toggle light/dark theme">
                             <span class="theme-option" id="theme-dark"
                                   style="padding: 0.25rem 0.5rem;
                                          border-radius: 16px;
@@ -908,9 +921,7 @@
                             logout
                         </a>
                         {% endif %}
-                    </li>
-                </ul>
-            </nav>
+            </div>
         </div>
     </header>
 
