@@ -8,12 +8,15 @@
 
   <!-- Same serif typography as the main site (base.html) -->
 
-  <style>
-    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: block; }
-    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: block; }
-    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: block; }
-    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: block; }
-    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: block; }
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Nordwand Mono'; src: url('/static/fonts/NordwandMono-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
     /* Design tokens — mirrors base.html (dark theme) */
     :root {
       --bg-base:        #0e0e12;
@@ -29,9 +32,9 @@
       --color-warning:  #d4a054;
       --color-danger:   #c94040;
       --color-accent:   #00ffff;
-      --font-display:  'Nordwand Mono', 'Courier New', monospace;
-      --font-body:     'Nordwand Mono', 'Courier New', monospace;
-      --font-mono:     'Nordwand Mono', 'Courier New', monospace;
+      --font-display:  'Nordwand Mono', 'Roboto Mono', 'Courier New', monospace;
+      --font-body:     'Nordwand Mono', 'Roboto Mono', 'Courier New', monospace;
+      --font-mono:     'Nordwand Mono', 'Roboto Mono', 'Courier New', monospace;
       --space-xs:  0.25rem;
       --space-sm:  0.5rem;
       --space-md:  1rem;
