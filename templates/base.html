@@ -1249,21 +1249,33 @@ function updateToggleUI(theme) {
 </script>
 
 <script>
-// Nav dropdowns (data, +++): click to open, click anywhere or pick an item
-// to close.
+// Nav dropdowns (data, add): opening one closes every other menu
+// (dropdowns, hamburger, mobile more).
 (function () {
+    window.closeStroketrackerMenus = function (except) {
+        ['dataDropdown', 'plusDropdown'].forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el && el !== except) el.classList.remove('open');
+        });
+        var burgerMenu = document.getElementById('navHamburgerMenu');
+        if (burgerMenu && burgerMenu !== except) burgerMenu.hidden = true;
+        var moreMenu = document.getElementById('mobileMoreMenu');
+        if (moreMenu && moreMenu !== except) moreMenu.style.display = 'none';
+    };
     ['dataDropdown', 'plusDropdown'].forEach(function (id) {
         var dd = document.getElementById(id);
         if (!dd) return;
         var btn = dd.querySelector('.nav-dropbtn');
         btn.addEventListener('click', function (e) {
             e.stopPropagation();
-            dd.classList.toggle('open');
+            var wasOpen = dd.classList.contains('open');
+            window.closeStroketrackerMenus(dd);
+            if (!wasOpen) dd.classList.add('open');
         });
         dd.querySelectorAll('.nav-dropitem').forEach(function (item) {
-            item.addEventListener('click', function () { dd.classList.remove('open'); });
+            item.addEventListener('click', function () { window.closeStroketrackerMenus(); });
         });
-        document.addEventListener('click', function () { dd.classList.remove('open'); });
+        document.addEventListener('click', function () { window.closeStroketrackerMenus(); });
     });
 })();
 </script>
@@ -1277,7 +1289,9 @@ function updateToggleUI(theme) {
     if (!burger || !menu) return;
     burger.addEventListener('click', function (e) {
         e.stopPropagation();
-        menu.hidden = !menu.hidden;
+        var wasOpen = !menu.hidden;
+        window.closeStroketrackerMenus(menu);
+        menu.hidden = wasOpen;
     });
     menu.querySelectorAll('a, button').forEach(function (item) {
         item.addEventListener('click', function () { menu.hidden = true; });
@@ -1316,7 +1330,9 @@ function updateToggleUI(theme) {
     if (!btn || !menu) return;
     btn.addEventListener('click', function(e) {
         e.stopPropagation();
-        menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        var wasOpen = menu.style.display === 'block';
+        window.closeStroketrackerMenus(menu);
+        menu.style.display = wasOpen ? 'none' : 'block';
     });
     document.addEventListener('click', function() { menu.style.display = 'none'; });
 })();
