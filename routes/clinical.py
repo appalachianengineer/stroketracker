@@ -677,3 +677,10 @@ def delete_event(event_id):
     """Delete a clinical event."""
     db.delete_clinical_event(uid(), event_id)
     return redirect(url_for("clinical_record") + "#events")
+
+
+@app.route("/imaging")
+def imaging():
+    """Imaging placeholder: DICOM viewing (OHIF Viewer integration) is
+    planned. Radiology reports live in the clinical record until then."""
+    return render_template("imaging.html")

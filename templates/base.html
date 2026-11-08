@@ -862,7 +862,7 @@
                         </div>
                     </li>
                     <li class="nav-dropdown" id="dataDropdown">
-                        <button type="button" class="nav-dropbtn{% if request.endpoint in ('forecast', 'timeline', 'wearable', 'clinical_record', 'portals_manage', 'search') %} active{% endif %}">
+                        <button type="button" class="nav-dropbtn{% if request.endpoint in ('forecast', 'timeline', 'wearable', 'clinical_record', 'portals_manage', 'search', 'imaging') %} active{% endif %}">
                             data ▾
                         </button>
                         <div class="nav-dropmenu">
@@ -872,6 +872,7 @@
                             <a href="{{ url_for('clinical_record') }}" class="nav-dropitem{% if request.endpoint == 'clinical_record' %} active{% endif %}">clinical</a>
                             <a href="{{ url_for('portals_manage') }}" class="nav-dropitem{% if request.endpoint == 'portals_manage' %} active{% endif %}">portal</a>
                             <a href="{{ url_for('search') }}" class="nav-dropitem{% if request.endpoint == 'search' %} active{% endif %}">search</a>
+                            <a href="{{ url_for('imaging') }}" class="nav-dropitem{% if request.endpoint == 'imaging' %} active{% endif %}">imaging</a>
                         </div>
                     </li>
                 </ul>
@@ -893,6 +894,7 @@
                     <a href="{{ url_for('clinical_record') }}" class="nav-dropitem{% if request.endpoint == 'clinical_record' %} active{% endif %}">clinical</a>
                     <a href="{{ url_for('portals_manage') }}" class="nav-dropitem{% if request.endpoint == 'portals_manage' %} active{% endif %}">portal</a>
                     <a href="{{ url_for('search') }}" class="nav-dropitem{% if request.endpoint == 'search' %} active{% endif %}">search</a>
+                    <a href="{{ url_for('imaging') }}" class="nav-dropitem{% if request.endpoint == 'imaging' %} active{% endif %}">imaging</a>
                 </div>
                 <div id="headerControls" class="header-controls">
                 <button id="theme-toggle"
@@ -1008,6 +1010,7 @@
                 {% endif %}
                 <a href="{{ url_for('portals_manage') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">portal</a>
                 <a href="{{ url_for('search') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">search</a>
+                <a href="{{ url_for('imaging') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">imaging</a>
                 <a href="{{ url_for('help_page') }}" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">help</a>
                 {% if 'HealthSyncAndroid' in request.headers.get('User-Agent', '') %}
                 <a href="/android/backfill-healthconnect" style="display:block; padding:var(--space-xs) var(--space-md); color:var(--text-secondary); text-decoration:none; font-size:0.85rem;">import history</a>

@@ -351,3 +351,10 @@ def test_nav_has_data_dropdown_with_add_note_and_activity_log(app_client, user):
     assert 'href="/stress"' in html and 'href="/medlog"' in html
     assert 'id="navHamburgerBtn"' in html        # narrow-screen hamburger
     assert 'id="headerControls"' in html          # movable right-side controls
+
+
+def test_imaging_placeholder_renders(app_client, user):
+    log_in(app_client, user)
+    html = app_client.get("/imaging").get_data(as_text=True)
+    assert "OHIF" in html
+    assert 'href="/imaging"' in app_client.get("/stress").get_data(as_text=True)  # in the data dropdown
